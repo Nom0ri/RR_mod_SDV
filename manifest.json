@@ -1,7 +1,7 @@
 {
     "Name": "Romanceable Rasmodia",
     "Author": "Written by WerewolfMaster, haywrites, SVE compatability by PaintedParrot, Female Version by Nom0ri",
-    "Version": "2.0",
+    "Version": "2.0.3",
     "Description": "Changes old Wizard of the tower to the beautiful Witch Rasmodia",
     "UniqueID": "Nom0ri.RomRas",
     "UpdateKeys": ["Nexus:8265"],
