@@ -12,6 +12,18 @@ Original romance mod was made by haywrite (dialogue expansion), WerewolfMaster (
 Assets by CreepyKat with my edits to fit mod
 
 ## Version changelog:
+- Version 2.2
+  * SVE and Romanceable Rasmodius are not longer required for Rasmodia to work. But still add most of this mod's content so using them is recommended.
+
+  * Fixes:
+    * Kissing during Magic Ink quest and 14 heart event
+    * Witch's dialogue after Pierre's Mature Event
+    * Apples dialogue
+    * Enchanted Grove wizard mentions
+    * Some more festival dialogue
+    * Patio Dialogue - She won't mention non existing ritual circle
+    * Added marriage dependent changes to Void Shard event
+    * Added missing compatibility with SVO - Slightly Cuter Aesthetic for SVE
 - Version 2.1.1
   * Fixes:
     * Marlon 2 heart event (Krobus introduction)

@@ -1,32 +1,40 @@
 {
     "Name": "Romanceable Rasmodia",
     "Author": "Written by WerewolfMaster, haywrites, SVE compatability by PaintedParrot, Female Version by Nom0ri",
-    "Version": "2.1.1",
+    "Version": "2.2",
     "Description": "Changes old Wizard of the tower to the beautiful Witch Rasmodia",
     "UniqueID": "Nom0ri.RomRas",
     "UpdateKeys": ["Nexus:8265"],
     "Dependencies": [
         {
-		  "UniqueID": "Parrot.RomRas",
-		  "IsRequired": true
+			"UniqueID": "Parrot.RomRas",
+			"IsRequired": false
         },
-		
 		{
-		  "UniqueID": "spacechase0.JsonAssets",
-		  "IsRequired": true,
+			"UniqueID": "FlashShifter.StardewValleyExpandedCP",
+			"IsRequired": false,
+        },
+		{
+			"UniqueID": "spacechase0.JsonAssets",
+			"IsRequired": true,
 		},
 		{
-		  "UniqueID": "Tanpoponoko.SeasonalOutfits",
-		  "IsRequired": false,
+			"UniqueID": "Tanpoponoko.SeasonalOutfits",
+			"IsRequired": false,
 		},
 		{
-		  "UniqueID": "Poltergeister.SeasonalOutfitsSVE",
-		  "IsRequired": false,
+			"UniqueID": "Poltergeister.SeasonalOutfitsSVE",
+			"IsRequired": false,
 		},
 		{
-		  "UniqueID": "Poltergeister.SeasonalCuteCharacters",
-		  "IsRequired": false,
-		}
+			"UniqueID": "Poltergeister.SeasonalCuteCharacters",
+			"IsRequired": false,
+		},
+		{
+			"UniqueID": "Poltergeister.SeasonalCuteSpritesSVE",
+			"IsRequired": false,
+		},
+
      ],
     "ContentPackFor": {
        "UniqueID": "Pathoschild.ContentPatcher"
