@@ -12,6 +12,16 @@ Original romance mod was made by haywrite (dialogue expansion), WerewolfMaster (
 Assets by CreepyKat with my edits to fit mod
 
 ## Version changelog:
+- Version 2.2.1
+  * Mr. Ginger and Tristan from Lemurkat's mods now recognize Rasmodia as a Witch
+
+  * Fixes:
+    * Caroline and Pierre's mature events - previous version could crash the game
+    * Morgan's dialogue
+    * Lance 4 and 10 heart events
+    * Lance's dialogue
+    * Leo & Morgan's Event
+    
 - Version 2.2
   * SVE and Romanceable Rasmodius are not longer required for Rasmodia to work. But still add most of this mod's content so using them is recommended.
 
