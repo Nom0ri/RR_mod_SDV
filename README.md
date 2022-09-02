@@ -1,3 +1,4 @@
+
 # Romanceable Rasmodia SVE - mod for Stardew Valley
 
 Nexus mod site: https://www.nexusmods.com/stardewvalley/mods/8265
@@ -9,9 +10,39 @@ Contents:
 * New portrait and sprite (now with wedding and flower dance dresses)
 
 Original romance mod was made by haywrite (dialogue expansion), WerewolfMaster (romance part) and PaintedParrot (adjustments to SVE mod)
-Assets by CreepyKat with my edits to fit mod
 
 ## Version changelog:
+-  Version 2.3.1
+    *  Fixes:  
+        - Juna NPC mod compatibility error
+       
+-  Version 2.3
+    
+    *  Fixes:  
+        - Wedding text - you will never see husband & husband anymore  
+        - Sprite spring event - location name change on SVE side and typo  
+        - Camilla scene moved to cut content  
+        - Morgan 10 heart event (2nd part after dialogue)  
+        - Enchanter's Bundle - sprite fixed to show Rasmodia  
+        - Perfection sprites  
+          
+      * New:  
+        - Clearer config menu  
+        - Added option to configure amount of hearts needed for changing the name to Rasmodia  
+        - Now Witch turn to Rasmodia after reaching 4 hearts by default instead of 8  
+          
+      * Mod compatibility:  
+        - Added support for Juna NPC, Adventurer's Guild Expanded, RSV and Lunna - Astray in Stardew Valley  
+        - Several more portrait mods should now work without problem
+    
+-  Version 2.2.2
+    
+    -   Added support for Lannah - Female Lance  
+          
+        Fixes:  
+        - Rasmodia's daily dialogue - missed one mention  
+        - Movie reactions for Rasmodia and Morgan
+        
 - Version 2.2.1
   * Mr. Ginger and Tristan from Lemurkat's mods now recognize Rasmodia as a Witch
 

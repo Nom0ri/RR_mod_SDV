@@ -1,27 +1,38 @@
 {
-	"Format": "1.23.0",
+	"Format": "1.28.0",
 	
 // CONFIG
 
 	"ConfigSchema": {
+		"Name change hearts": {
+			"Section": "Romanceable Rasmodia",
+			"AllowValues": "0, 1, 2, 3, 4, 5, 6, 7, 8",
+			"Description": "Minimal hearts needed for Witch to become Rasmodia (Only with SVE)",
+			"Default": "4",
+			},
+		
 		"Override Generic Dialogue": {
+			"Section": "Romanceable Rasmodius",
 			"AllowValues": "true, false",
 			"Description": "Set to the same setting as the one in main mod Romanceable Rasmodius, ignore if not using the mod",
             "Default": "true"
             },
 		"Marriage Dialogue": {
+			"Section": "Romanceable Rasmodius",
 			"AllowValues": "standard, integrated",
 			"Description": "Set to the same setting as the one in main mod Romanceable Rasmodius, ignore if not using the mod",
 			"Default": "integrated",
 			},
 			
 		"Event": {
+			"Section": "Romanceable Rasmodius",
 			"AllowValues": "standard, integrated",
 			"Description": "Set to the same setting as the one in main mod Romanceable Rasmodius, ignore if not using the mod",
 			"Default": "integrated",
 			},
 		
 		"MatureEvents": {
+			"Section": "SVE",
 			"AllowValues": "true, false",
 			"Description": "Set to True if you enabled Mature Events in SVE, ignore if not using the mod",
 			"Default": "false"
@@ -37,6 +48,81 @@
 			"Name": "IsOddYear",
 			"Value": "{{Query: {{Year}} % 2 = 1}}"
         },
+		{
+			"Name": "RasmodiaName",
+			"Value": "Rasmodia",
+			"When": {
+				"query: {{Hearts:Wizard}} >= {{Name change hearts}}": true
+			}
+		},
+		{
+			"Name": "RasmodiaName",
+			"Value": "Witch",
+			"When": {
+				"query: {{Hearts:Wizard}} < {{Name change hearts}}": true
+			}
+		},
+		
+		// Adventurer's Guild Expanded Compatibility Tokens
+		{
+			"Name": "GabrielTheme",
+			"Value": "kindadumbautumn",
+			"When": {
+				"HasMod: |contains=supert.guildexpandedsaat": false,
+			},
+		},
+		{
+			"Name": "GabrielTheme",
+			"Value": "GabrielTheme",
+			"When": {
+				"HasMod: |contains=supert.guildexpandedsaat": true,
+			},
+		},
+		{
+			"Name": "ZinniaTheme",
+			"Value": "ragtime",
+			"When": {
+				"HasMod: |contains=supert.guildexpandedsaat": false,
+			},
+		},
+		{
+			"Name": "ZinniaTheme",
+			"Value": "ZinniaTheme",
+			"When": {
+				"HasMod: |contains=supert.guildexpandedsaat": true,
+			},
+		},
+		{
+			"Name": "SillyTheme",
+			"Value": "archaeo",
+			"When": {
+				"HasMod: |contains=supert.guildexpandedsaat": false,
+			},
+		},
+		{
+			"Name": "SillyTheme",
+			"Value": "SillyTheme",
+			"When": {
+				"HasMod: |contains=supert.guildexpandedsaat": true,
+			},
+		},
+		
+		// Juna NPC
+		{
+			"Name": "WizardPortrait",
+			"Value": "$1",
+			"When": {
+				"HasMod |contains=FlashShifter.StardewValleyExpandedCP": "false"
+			}
+		},
+
+		{
+			"Name": "WizardPortrait",
+			"Value": "$3",
+			"When": {
+				"HasMod": "FlashShifter.StardewValleyExpandedCP"
+			}
+		},
 	],
 	
 	"Changes": [	
@@ -86,10 +172,14 @@
                 },
 			},
         },
+
+
+// NAME
+
         {
         "Action": "EditData",
         "Target": "Data/NPCDispositions",
-		"When": { 	"HasMod |contains=FlashShifter.StardewValleyExpandedCP": false },
+		"When": { "HasMod |contains=FlashShifter.StardewValleyExpandedCP": false },
         "Fields": {
             "Wizard": {
                 11: "Witch",
@@ -99,27 +189,26 @@
         {
         "Action": "EditData",
         "Target": "Data/NPCDispositions",
-        "When": {
-            "Hearts:Wizard": "0, 1, 2, 3, 4, 5, 6, 7, 8", "HasMod": "FlashShifter.StardewValleyExpandedCP"
-        },
+        "When": { "HasMod": "FlashShifter.StardewValleyExpandedCP" },
         "Fields": {
             "Wizard": {
-                11: "Witch",
+                11: "{{RasmodiaName}}",
                 }
             },
         },
-        {
-        "Action": "EditData",
-        "Target": "Data/NPCDispositions",
-        "When": {
-            "Hearts:Wizard": "9, 10, 11, 12, 13, 14", "HasMod": "FlashShifter.StardewValleyExpandedCP"
-        },
-        "Fields": {
-            "Wizard": {
-                11: "Rasmodia",
-                }
-            },
-        },
+
+// WEDDING STRINGS FIX
+		{
+			"Action": "EditData",
+			"Target": "strings/StringsFromCSFiles",
+			"Entries": {
+				"Utility.cs.5371": "@... Rasmodia... #$b# As the mayor of Pelican Town, and regional bearer of the matrimonial seal, I now pronounce you husband and wife!$h",
+				"Utility.cs.5377": "@... Rasmodia... #$b# As the mayor of Pelican Town, and regional bearer of the matrimonial seal, I now pronounce you wife and..., well, wife!$h",
+			},
+			"When": {
+				"Relationship:Wizard": "Engaged"
+			},
+		},
 
 // SPECIAL ORDER STRINGS
 	{
@@ -150,10 +239,36 @@
 	{
 		"Action": "EditImage",
 		"Target": "LooseSprites/emojis",
-		"FromFile": "Assets/Witch_Emoji.png",
+		"FromFile": "assets/Witch_Emoji.png",
 		"ToArea": {"X": 90, "Y": 108, "Width": 9, "Height": 9}
 	},
+	
+// ENCHANTER'S BUNDLE
 
+	{
+		"Action": "EditImage",
+		"Target": "LooseSprites/JunimoNote",
+		"FromFile": "assets/witch_bundle.png",
+		"ToArea": {"X": 416, "Y": 212, "Width": 32, "Height": 32}
+	},
+	
+// PERFECTION SPRITES
+	{
+		"Action": "EditImage",
+		"Target": "Characters/KrobusRaven",
+		"When": { "HasMod": "FlashShifter.StardewValleyExpandedCP", "Spouse |contains=Wizard": false },
+		"FromFile": "assets/perfection_witch.png",
+		"ToArea": {"X": 0, "Y": 64, "Width": 128, "Height": 40}
+	},
+	
+	{
+		"Action": "EditImage",
+		"Target": "Characters/KrobusRaven",
+		"When": { "HasMod |contains=FlashShifter.StardewValleyExpandedCP": false },
+		"FromFile": "assets/perfection_witch.png",
+		"ToArea": {"X": 0, "Y": 64, "Width": 128, "Height": 40}
+	},
+	
 // QUESTS
 
 	    {
@@ -242,6 +357,229 @@
 		     "MagicInkDescription": "You've found the Witch's lost {0}! Better return it to her."
 			}
 		},
+		
+// MOVIE REACTIONS
+		
+		{
+		"Action": "EditData",
+		"Target": "Data/MoviesReactions",
+		"Entries": {
+			"Wizard": {
+			"NPCName": "Wizard",
+				"Reactions": [{
+					"Tag": "fall_movie_0",
+					"Response": "love",
+					"Whitelist": [],
+					"SpecialResponses": {
+						"BeforeMovie": {
+							"ResponsePoint": null,
+							"Script": "",
+							"Text": "I sense an arcane power permeating this building tonight..."
+							},
+						"DuringMovie": {
+							"ResponsePoint": null,
+							"Script": "/message \"There's a twinkle in Rasmodia's eye...\"",
+							"Text": "And to think... the layman has no idea that this is all raw, real footage!"
+							},
+						"AfterMovie": {
+							"ResponsePoint": null,
+							"Script": "",
+							"Text": "For those aware of the esoteric mysteries, that had deep significance..."
+							}
+						},
+						"ID": "reaction_1"
+					},
+					{
+					"Tag": "*",
+					"Response": "dislike",
+					"Whitelist": [],
+					"SpecialResponses": {
+						"BeforeMovie": {
+							"ResponsePoint": null,
+							"Script": "",
+							"Text": "..."
+							},
+						"DuringMovie": null,
+						"AfterMovie": {
+							"ResponsePoint": null,
+							"Script": "",
+							"Text": "You pulled me from my studies for *this*?"
+							}
+						},
+						"ID": "reaction_0"
+					}
+				]
+				}
+		}
+	},
+		{
+		"Action": "EditData",
+		"Target": "Data/MoviesReactions",
+		"When": { "HasMod": "FlashShifter.StardewValleyExpandedCP" },
+		"Entries": {
+			"Morgan":  {
+			"NPCName": "Morgan",
+			"Reactions": [{
+				"Tag": "spring_movie_0",
+				"Response": "love",
+				"Whitelist": [],
+				"SpecialResponses": {
+					"BeforeMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "Thanks for inviting me to the movies, @!$1"
+						},
+					"DuringMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "!!!$3"
+						},
+					"AfterMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "It was a magical film! Thank you, @.$1#$e#Maybe I'll try creating the 'Brave Little Sappling' myself with magic some day!$1"
+						}
+					},
+					"ID": "reaction_0"
+			},
+				{
+				"Tag": "horror",
+				"Response": "dislike",
+				"Whitelist": [],
+				"SpecialResponses": {
+					"BeforeMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "A horror film? Okay...$8"
+						},
+					"DuringMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "!!!$5"
+						},
+					"AfterMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "That was scary...$2"
+						}
+					},
+					"ID": "reaction_1"
+				},
+				{
+				"Tag": "winter_movie_1",
+				"Response": "dislike",
+				"Whitelist": [],
+				"SpecialResponses": {
+					"BeforeMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "Thanks for inviting me, @.$1"
+						},
+					"DuringMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "*yawn*$6"
+						},
+					"AfterMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "*yawn* that was kinda boring.$0#$e#Oh! Um. I enjoyed the movie!$3#$e#...$3"
+						}
+					},
+					"ID": "reaction_2"
+				},
+				{
+				"Tag": "summer_movie_0",
+				"Response": "like",
+				"Whitelist": [],
+				"SpecialResponses": {
+					"BeforeMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "People are staring at my hat.$8"
+						},
+					"DuringMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "Whoa!!!$1"
+						},
+					"AfterMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "I was on the edge of my seat there at the end!$1"
+						}
+					},
+					"ID": "reaction_3"
+				},
+				{
+				"Tag": "love",
+				"Response": "like",
+				"Whitelist": [],
+				"SpecialResponses": {
+					"BeforeMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "People are staring at my hat.$8"
+						},
+					"DuringMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": ""
+						},
+					"AfterMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "That was a good movie! I can't wait to tell Rasmodia about it!$1"
+						}
+					},
+					"ID": "reaction_4"
+				},
+				{
+				"Tag": "like",
+				"Response": "like",
+				"Whitelist": [],
+				"SpecialResponses": {
+				"BeforeMovie": {
+					"ResponsePoint": "",
+					"Script": "",
+					"Text": "Can we play the 'crane game'?$1#$e#I could use a little magic to 'sweeten the odds'.$7"
+					},
+				"DuringMovie": null,
+				"AfterMovie": {
+					"ResponsePoint": "",
+					"Script": "",
+					"Text": "Thank you for the invite, @!$1"
+					}
+				},
+				"ID": "reaction_5"
+				},
+				{
+				"Tag": "dislike",
+				"Response": "like",
+				"Whitelist": [],
+				"SpecialResponses": {
+					"BeforeMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "Can we play the 'crane game'?$1"
+						},
+					"DuringMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "*yawn*$6"
+						},
+					"AfterMovie": {
+						"ResponsePoint": "",
+						"Script": "",
+						"Text": "Um. Thanks, @.$0"
+						}
+					},
+					"ID": "reaction_6"
+				}
+				]
+			},
+		}
+	},
 
 		
 // VANILLA EVENTS
@@ -376,6 +714,23 @@
 			"winter_Tue": "Since it's freezing outside, I'm gonna convince teacher to let me try fire magic.$1#$e#Hmm, you're right. I guess it could be dangerous.$2",
 			"winter_Thu": "I've asked teacher about adopting an animal from Marnie's. She said 'maybe'!$3",
 			},
+		},
+		
+		//LANCE'S FESTIVAL DIALOGUE
+		{
+		"Action": "EditData",
+		"Target": "data/festivals/spring24",
+		"Entries": {
+			"Lance": "Perhaps I'll join Rasmodia on the cliffside after the dancing ceremony.$0"
+			}
+		},
+		{
+		"Action": "EditData",
+		"Target": "data/festivals/fall27",
+		"When": { "IsOddYear": true },
+		"Entries": {
+			"Lance": "*chuckle* Show off...$5#$e#Rasmodia possesses great power.$0"
+			}
 		},
 
 // SVE MARRIAGE DIALOGUE ON DATE
@@ -586,16 +941,14 @@
 			"5978938/e 5978937/f Morgan 2500/w sunny/z winter/t 600 800": "continue/-500 -500/farmer 64 15 2 Morgan 64 17 0/pause 1100/speak Morgan \"Um. Good morning, @.$1\"/pause 500/speak Morgan \"Teacher is giving me an important test today deep in the woods, south of an abandoned vineyard.$0#$b#I'd like you to be there!$1\"/pause 800/faceDirection Morgan 1 true/pause 250/faceDirection Morgan 2 true/pause 650/showFrame Morgan 18/pause 500/speak Morgan \"*snicker* Farewell, @!$7\"/pause 750/showFrame Morgan 17/pause 400/showFrame Morgan 16/pause 400/showFrame Morgan 17/pause 400/screenFlash 2/playSound wand/warp Morgan 64 18/pause 800/showFrame Morgan 0/pause 400/jump Morgan/pause 1300/ShowFrame Morgan 4/pause 250/showFrame Morgan 8/pause 200/speak Morgan \"Ugh! I messed up.$2#$b#Um. Lemme try that again...$2\"/pause 800/shake Morgan 1000/pause 1000/screenFlash 2/playSound wand/warp Morgan -50 -50/pause 1300/emote farmer 40/pause 200/end" 
 			},
 		},
-		
-		{      //CAMILLA CUTSCENE
+		{   //MORGAN - 10 HEART part 2 - 'A Pure Heart'
 			"Action": "EditData",
 			"Target": "data/events/Custom_ForestWest",
 			"When": { "HasMod": "FlashShifter.StardewValleyExpandedCP" },
 			"Entries": {
-			"6904242/w sunny/z winter": "spring_day_ambient/-500 -500/farmer 105 49 3 Wizard -100 -100 2/addTemporaryActor Camilla 16 32 -99 -99 1 true/skippable/pause 1000/viewport 105 49 true/viewport move -2 0 4500 true/move farmer -9 0 3/screenFlash 2/playSound wand/playSound wand/warp Camilla 94 49/playMusic EnchantedWaltz/pause 200/jump farmer/showFrame farmer 94/pause 1100/move farmer 0 0 2/pause 100/move farmer 0 0 3/speak Camilla \"OoOoooOo. You're much cuter than I thought.\"/pause 400/screenFlash 2/playSound wand/warp Camilla 98 49/move Camilla 0 0 3/pause 700/move farmer 0 0 2/pause 100/move farmer 0 0 1/pause 100/emote farmer 16 true/pause 200/speak Camilla \"I see why Rasmodia and Marlon put their faith in you.$1\"/pause 300/screenFlash 2/playSound wand/warp Camilla 96 47/move Camilla 0 0 2/pause 400/move farmer 0 0 0/pause 250/speak Camilla \"I suppose I'll ponder over whether I will grant you permission to enter Castle Village.$0\"/pause 400/showFrame Camilla 16/pause 300/speak Camilla \"Adieu.$5\"/pause 400/showFrame Camilla 17/pause 150/showFrame Camilla 18/pause 150/showFrame Camilla 19/pause 350/screenFlash 2/playSound wand/playSound wand/warp Camilla -200 -200/pause 700/globalFade/viewport -1000 -1000/pause 500/end dialogue Wizard \"I sensed you had an encounter with the witch of Castle Village.#$b#Camilla is the curious playful type.#$e#Permission to Castle Village you say? That's the highest honor given to an adventurer.\"",
+			"5978939/e 5978938/w sunny/t 600 1800": "spring_day_ambient/-500 -500/farmer 26 114 2 Morgan 27 127 3 Wizard 24 127 1/skippable/pause 1000/viewport 26 114 true/viewport move 0 2 5000 true/move farmer 0 10 2 true/pause 3500/faceDirection Wizard 0 true/pause 850/faceDirection Morgan 0 true/pause 800/speak Wizard \"Ah. I foresaw your arrival...$0\"/speak Morgan \"You really came!?$1\"/pause 700/faceDirection Wizard 1 true/pause 750/speak Wizard \"Morgan. It is time.$0\"/pause 500/faceDirection Morgan 3 true/pause 500/speak Morgan \"*gulp*... okay.$0#$b#Morgan, you can do this...$6\"/pause 700/globalFade/viewport -1000 -1000/warp Wizard 26 129/warp farmer 28 129/warp Morgan 27 125/faceDirection Wizard 0 true/faceDirection farmer 0 true/faceDirection Morgan 2 true/showFrame Morgan 18/viewport 27 127 true/pause 1500/speak Wizard \"Concentrate...$0#$b#Demonstrate your intentions to the elementals that bind our world...\"/pause 2000/shake Morgan 500/pause 1500/shake Morgan 350/pause 500/stopMusic/pause 1700/speak Morgan \"...$6\"/pause 1600/playMusic winter_day_ambient/pause 3000/speak Morgan \"Mountain summits...$6\"/pause 3000/playMusic rain/pause 1700/shake Morgan 500/pause 1300/speak Morgan \"The marshlands...$6\"/pause 2500/shake Morgan 350/pause 700/playMusic fall_day_ambient/pause 2800/speak Morgan \"Lush forests...$6\"/pause 1600/shake Morgan 400/pause 900/playMusic ocean/pause 2300/shake Morgan 200/pause 900/speak Morgan \"The oceans...$6\"/pause 2200/playMusic moonlightJellies/pause 1500/speak Morgan \"I feel... a connection with the earth...$6#$b#It's speaking to me...$6\"/pause 2000/playSound SpringBirds/addTemporaryActor Bird1 16 32 33 125 3/move Bird1 -4 0 3/emote farmer 16 true/playSound SpringBirds/animate Bird1 false true 100 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4 4 4 8 8 9 9 10 10 9 10 9 9 10 9 10 9 10 9 10 9 8 4 4 4 4 4 4/pause 1400/playSound SpringBirds/addTemporaryActor Bird2 16 32 20 124 1/move Bird2 5 0 1/animate Bird2 false true 100 12 12 12 12 12 12 12 12 12 12 13 13 13 13 13 13 12 12 12 12 12 12 8 8 9 9 9 9 10 9 10 9 10 9 10 9 9 9 9 9 10 9 10 9 10 9 10 9 9 8 12 12 12 12/pause 500/playSound SpringBirds/doAction 21 123/pause 700/doAction 21 123/addTemporaryActor Frog2 16 32 23 123 1/move Frog2 1 0 1/animate Frog2 false true 100 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 8 9 9 8 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 8 9 9 8/pause 500/playSound SpringBirds/pause 500/addTemporaryActor Frog1 16 32 31 127 3/doAction 31 128/pause 100/move Frog1 -3 0 3/animate Frog1 false true 100 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 16 17 17 17 16 15 15 15 15 15 15 15 15 15 15 15 15 15/addTemporaryActor Bird3 16 32 34 123 3/playSound SpringBirds/move Bird3 -6 0 3/playSound SpringBirds/animate Bird3 false true 100 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4/pause 1000/playSound SpringBirds/globalFade/viewport -1000 -1000/pause 50/speak Morgan \"Gah! Where did all these animals come from!?$5\"/pause 100/addTemporaryActor Rabbit1 16 32 24 126 1/showFrame Rabbit1 0 true/addTemporaryActor Crow1 16 32 30 127 3/showFrame Crow1 0 true/animate Crow1 false true 250 0 0 0 0 1 0 0 0 0 0 0 0 0 1/addTemporaryActor Squirrel1 16 32 24 127 1/showFrame Squirrel1 0 true/animate Squirrel1 false true 250 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1/addTemporaryActor Rabbit2 16 32 29 126 3/showFrame Rabbit2 0 true/faceDirection Morgan 2 true/animate Morgan false true 200 0 0 0 0 0 0 4 4 4 4 4 4 4 4 0 12 12 12 12 12 12 12 12 0/viewport 27 127 true/pause 500/playSound SpringBirds/pause 1500/playSound SpringBirds/pause 1000/move Wizard 0 -2 0/pause 500/playSound SpringBirds/pause 500/faceDirection Wizard 3 true/pause 1200/faceDirection Wizard 0 true/pause 250/faceDirection Wizard 1 true/pause 700/playSound SpringBirds/pause 600/faceDirection Wizard 0 true/pause 700/stopAnimation Morgan/faceDirection Morgan 2 true/pause 200/playSound SpringBirds/pause 500/speak Wizard \"Extraordinary, Morgan...#$b#Your ability to gain the trust of forest creatures is proof mother nature has put her faith in you...\"/pause 200/emote Morgan 8 true/pause 300/speak Morgan \"Um. Does that mean...$5\"/speak Wizard \"Yes. You've passed the exam!$1\"/pause 200/playSound SpringBirds/pause 100/jump Morgan/pause 900/jump Morgan/pause 400/playSound SpringBirds/pause 500/speak Morgan \"!!!$3\"/pause 500/globalFade/viewport -1000 -1000/pause 1000/message \"I reflected on the forest creatures, and the meaning behind what I saw...\"/pause 1000/playSound reward/message \"My farm animals will now produce higher quality goods!\"/end dialogue Morgan \"Thanks for showing your support during my exam, @.$1#$e#Master said when I'm a little older she'll teach me cool magic, like summoning fire!$3#$e#I've proven I can be trusted with dangerous magic...$1\""
 			},
 		},
-		
 		{       //SAM EVENT
 			"Action": "EditData",
 			"Target": "data/events/saloon",
@@ -616,10 +969,10 @@
 		
 		{       //SPRITE SPRING EVENT
 			"Action": "EditData",
-			"Target": "data/events/Custom_SpriteSpring",
+			"Target": "data/events/Custom_SpriteSpring2",
 			"When": { "HasMod": "FlashShifter.StardewValleyExpandedCP" },
 			"Entries": {
-			"1111200": "GrenvilleFalls/-500 -500/farmer 11 23 1/pause 500/viewport 16 23 clamp true/skippable/move farmer 5 0 1/pause 1250/move farmer 0 0 2/pause 1300/move farmer 0 0 3/pause 1400/playSound junimoMeep1/pause 500/move farmer 0 0 0/pause 550/playSound junimoMeep1/pause 100/emote farmer 8 true/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 400/playSound junimoMeep1/pause 750/message \"???: A human! There's a human here!\"/pause 1000/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 750/message \"???: That's impossible. The only human that can find our spring is Ras- Oh! There IS a human!\"/pause 250/move farmer -1 0 0/pause 150/emote farmer 8 true/pause 100/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 850/message \"???: Wait... the human understands us!?\"/pause 200/playSound junimoMeep1/pause 150/playSound junimoMeep1/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/pause 300/move farmer 0 0 0/pause 200/playSound junimoMeep1/pause 400/playSound junimoMeep1/pause 700/message \"???: Don't play dumb. It's obvious you know what we're saying!\"/pause 400/move farmer 1 0 2 true/pause 150/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 450/message \"???: Yes, yes! This is true.\"/pause 700/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 350/message \"???: What are you? You must be very special if you can find this place and understand what we're saying!\"/pause 500/move farmer 0 0 0/pause 150/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 400/message \"???: This area of the forest is magically protected from most humans - they can't even find it!\"/pause 300/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 300/move farmer 0 0 3/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 450/message \"???: Are you a student of the forest Witch? Is he training humans in magic again!? This is SO interesting!\"/pause 300/playSound junimoMeep1/pause 250/move farmer 0 0 0/pause 350/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 450/message \"???: Where did you come from? We've never seen you before!\"/pause 300/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 400/message \"???: Please tell us your name! We're so curious!\"/pause 600/emote farmer 40/pause 400/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 350/message \"???: It's nice to meet you!\"/pause 200/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 200/message \"???: Hi! Lovely name!\"/pause 500/emote farmer 32/pause 600/move farmer 0 0 0/pause 600/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 700/message \"CLAUS: I'm Claus!\"/pause 500/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 500/message \"ANGELICA: And I'm Angelica!\"/pause 700/move farmer 0 -1 0/pause 700/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 500/message \"CLAUS: We're forest sprites. This spring is our home!\"/pause 800/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 550/message \"ANGELICA: How did you discover this place? No ordinary person can find this spring...\"/pause 650/emote farmer 40/pause 500/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 650/message \"ANGELICA: I knew it, you're special!\"/pause 600/playSound junimoMeep1/pause 300/move farmer 0 0 3/pause 500/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 800/message \"CLAUS: This place is called Sprite Spring. The water here has special fortifying properties.\"/pause 1000/move farmer 0 0 1/pause 500/emote farmer 16/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 600/message \"Angelica: Aww, Claus. I wanted to say that!\"/pause 500/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 500/move farmer 0 0 0/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 700/message \"CLAUS: Why don't you tell the human what's on the other side of the spring, Angelica?\"/pause 500/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 600/message \"ANGELICA: Oh! Okay!\"/pause 1000/playSound junimoMeep1/pause 650/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 650/message \"ANGELICA: If you swim across, there are flowers you can take home with you. They grow every season!\"/pause 500/emote farmer 32/pause 500/move farmer 0 0 1/pause 550/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 400/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 600/message \"CLAUS: This spring rewards those who give to the valley. Visit us again, and you might find some rare forage!\"/pause 750/playSound junimoMeep1/pause 400/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 600/message \"ANGELICA: Yes! There will be even more treats to find!\"/pause 750/move farmer 0 0 0/pause 1000/emote farmer 32/pause 1300/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 150/playSound junimoMeep1/move farmer 0 0 1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 550/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 750/message \"CLAUS: Why don't you swim across? You can fortify yourself on your way over!\"/pause 1000/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 400/move farmer 0 0 0/pause 300/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 700/message \"ANGELICA: We look forward to meeting you again! We're both happy to have another friend.\"/pause 600/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 600/message \"CLAUS: Until the next time we meet!\"/pause 500/playSound junimoMeep1/pause 50/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 70/playSound junimoMeep1/pause 500/message \"ANGELICA and CLAUS: Goodbye!\"/pause 350/globalFade/viewport -1000 -1000/pause 700/playSound junimoMeep1/pause 300/end position 16 23",
+			"1111200": "GrenvilleFalls/-500 -500/farmer 11 23 1/pause 500/viewport 16 23 clamp true/skippable/move farmer 5 0 1/pause 1250/move farmer 0 0 2/pause 1300/move farmer 0 0 3/pause 1400/playSound junimoMeep1/pause 500/move farmer 0 0 0/pause 550/playSound junimoMeep1/pause 100/emote farmer 8 true/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 400/playSound junimoMeep1/pause 750/message \"???: A human! There's a human here!\"/pause 1000/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 750/message \"???: That's impossible. The only human that can find our spring is Ras- Oh! There IS a human!\"/pause 250/move farmer -1 0 0/pause 150/emote farmer 8 true/pause 100/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 850/message \"???: Wait... the human understands us!?\"/pause 200/playSound junimoMeep1/pause 150/playSound junimoMeep1/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/pause 300/move farmer 0 0 0/pause 200/playSound junimoMeep1/pause 400/playSound junimoMeep1/pause 700/message \"???: Don't play dumb. It's obvious you know what we're saying!\"/pause 400/move farmer 1 0 2 true/pause 150/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 450/message \"???: Yes, yes! This is true.\"/pause 700/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 350/message \"???: What are you? You must be very special if you can find this place and understand what we're saying!\"/pause 500/move farmer 0 0 0/pause 150/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 400/message \"???: This area of the forest is magically protected from most humans - they can't even find it!\"/pause 300/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 300/move farmer 0 0 3/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 450/message \"???: Are you a student of the forest Witch? Is she training humans in magic again!? This is SO interesting!\"/pause 300/playSound junimoMeep1/pause 250/move farmer 0 0 0/pause 350/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 450/message \"???: Where did you come from? We've never seen you before!\"/pause 300/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 400/message \"???: Please tell us your name! We're so curious!\"/pause 600/emote farmer 40/pause 400/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 350/message \"???: It's nice to meet you!\"/pause 200/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 200/message \"???: Hi! Lovely name!\"/pause 500/emote farmer 32/pause 600/move farmer 0 0 0/pause 600/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 700/message \"CLAUS: I'm Claus!\"/pause 500/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 500/message \"ANGELICA: And I'm Angelica!\"/pause 700/move farmer 0 -1 0/pause 700/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 500/message \"CLAUS: We're forest sprites. This spring is our home!\"/pause 800/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 550/message \"ANGELICA: How did you discover this place? No ordinary person can find this spring...\"/pause 650/emote farmer 40/pause 500/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 650/message \"ANGELICA: I knew it, you're special!\"/pause 600/playSound junimoMeep1/pause 300/move farmer 0 0 3/pause 500/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 800/message \"CLAUS: This place is called Sprite Spring. The water here has special fortifying properties.\"/pause 1000/move farmer 0 0 1/pause 500/emote farmer 16/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 150/playSound junimoMeep1/pause 600/message \"Angelica: Aww, Claus. I wanted to say that!\"/pause 500/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 500/move farmer 0 0 0/pause 300/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 700/message \"CLAUS: Why don't you tell the human what's on the other side of the spring, Angelica?\"/pause 500/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 600/message \"ANGELICA: Oh! Okay!\"/pause 1000/playSound junimoMeep1/pause 650/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 650/message \"ANGELICA: If you swim across, there are flowers you can take home with you. They grow every season!\"/pause 500/emote farmer 32/pause 500/move farmer 0 0 1/pause 550/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 400/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 600/message \"CLAUS: This spring rewards those who give to the valley. Visit us again, and you might find some rare forage!\"/pause 750/playSound junimoMeep1/pause 400/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 100/playSound junimoMeep1/pause 600/message \"ANGELICA: Yes! There will be even more treats to find!\"/pause 750/move farmer 0 0 0/pause 1000/emote farmer 32/pause 1300/playSound junimoMeep1/pause 250/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 150/playSound junimoMeep1/move farmer 0 0 1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 550/playSound junimoMeep1/pause 350/playSound junimoMeep1/pause 750/message \"CLAUS: Why don't you swim across? You can fortify yourself on your way over!\"/pause 1000/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 400/move farmer 0 0 0/pause 300/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 500/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 700/message \"ANGELICA: We look forward to meeting you again! We're both happy to have another friend.\"/pause 600/playSound junimoMeep1/pause 200/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 600/message \"CLAUS: Until the next time we meet!\"/pause 500/playSound junimoMeep1/pause 50/playSound junimoMeep1/pause 300/playSound junimoMeep1/pause 70/playSound junimoMeep1/pause 500/message \"ANGELICA and CLAUS: Goodbye!\"/pause 350/globalFade/viewport -1000 -1000/pause 700/playSound junimoMeep1/pause 300/end position 16 23",
 			},
 		},
 		
@@ -738,7 +1091,7 @@
 			//Lance 4 heart event - 'Blink Relic' - (Castle Village is mentioned)
 			"Action": "EditData",
 			"Target": "data/events/islandwest",
-			"When": { "HasFlag |contains=Island_UpgradeHouse": true, "HasFlag |contains=Island_Resort": true, "HasFlag |contains=Island_UpgradeBridge": true, "HasSeenEvent |contains=908078": true, "HasSeenEvent |contains=6951319": true, "HasMod": "FlashShifter.StardewValleyExpandedCP" },
+			"When": { "HasFlag |contains=Island_UpgradeHouse": true, "HasFlag |contains=Island_Resort": true, "HasFlag |contains=Island_UpgradeBridge": true, "HasSeenEvent |contains=908078": true, "HasSeenEvent |contains=6951319": true, "HasMod": "FlashShifter.StardewValleyExpandedCP", "HasMod |contains=Nom0ri.LannahFemLance": false },
 			"Entries": {
 				"6951320/w sunny/f Lance 1000/t 600 1800": "continue/-500 -500/farmer 80 80 2 Lance -100 -100 2 Leo 94 69 2/skippable/makeInvisible 81 80 1 10/makeInvisible 78 88 1 4/viewport 80 83 clamp true/viewport move 0 1 5650 true/move farmer 0 7 2 true/pause 8000/showFrame Lance 39 true/warp Lance 83 87/pause 100/showFrame Lance 38 true/pause 100/showFrame Lance 37 true/pause 100/showFrame Lance 36 true/pause 100/showFrame Lance 35 true/pause 100/showFrame Lance 34 true/pause 100/showFrame Lance 33 true/pause 100/showFrame Lance 32 true/pause 100/showFrame Lance 31 true/pause 100/showFrame Lance 30 true/pause 100/showFrame Lance 29 true/pause 100/showFrame Lance 40 true/pause 100/showFrame Lance 27 true/pause 100/showFrame Lance 26 true/pause 100/showFrame Lance 25 true/pause 100/showFrame Lance 24 true/pause 100/showFrame Lance 23 true/pause 100/showFrame Lance 22 true/pause 100/showFrame Lance 21 true/pause 100/showFrame Lance 20 true/pause 1500/speak Lance \"Beautiful day, isn't it?$0\"/pause 650/faceDirection farmer 1 true/pause 400/emote farmer 16 true/pause 800/faceDirection Lance 3 true/pause 750/speak Lance \"Ah. Apologies for startling you. That wasn't my intention. I was actually hoping to speak with you.$2\"/pause 500/emote farmer 40 true/pause 1000/speak Lance \"I've been patrolling Ginger Island for a long time, since well before you arrived.$6#$b#I've witnessed you communicating with birds, exchanging walnuts for many labor-intensive deeds.$0#$b#Thanks to you, they've repaired the bridge, and even summoned a beach resort, complete with a full bar.$5#$b#I have to say, I've encountered many adventurers during my time in the guild, but none as mysterious such as yourself.$0\"/pause 1000/speed Lance 1/move Lance -1 0 3/pause 500/speak Lance \"Are you familiar with magic relics, @?$0\"/pause 500/emote farmer 8 true/pause 1000/speak Lance \"Hmm. You aren't. That is most interesting, considering everything else you do...$6\"/pause 500/emote Lance 40 true/pause 1000/speak Lance \"There are many ancient artifacts imbued with magic waiting to be found around the world, many of which come from Galdora.$0#$b#And I just so happen to have a few on me....$5#$b#Here. Hold this.$1\"/pause 500/speed Lance 1/move Lance -1 0 3/pause 500/showFrame Lance 15 true/shake Lance 500/pause 100/playSound dwop/pause 500/showFrame Lance 12 true/pause 500/faceDirection farmer 2 true/pause 500/showFrame farmer 57 true/itemAboveHead joja/pause 3300/faceDirection farmer 2 true/pause 700/faceDirection farmer 1 true/pause 1650/faceDirection Lance 2 true/pause 500/speak Lance \"Use that to follow me up that cliff. Just focus on where you want to go, and grip the relic tightly.$0\"/pause 600/faceDirection Lance 3 true/pause 750/shake Lance 600/pause 150/showFrame Lance 13 true/pause 300/showFrame Lance 16 true/pause 500/speak Lance \"These relics come in all sorts of shapes and sizes.$1#$b#For example. This blade I have achieves the same goal that staff does.$5\"/pause 750/showFrame Lance 17 true/showFrame Lance 18 true/pause 750/shake Lance 500/pause 500/screenFlash 2/playSound wand/warp Lance 89 94/showFrame Lance 0 true/positionOffset Lance 20 25 true/pause 1600/faceDirection farmer 2 true/pause 1500/showFrame farmer 3 true/pause 500/startJittering/pause 500/screenFlash 2/playSound wand/stopJittering/warp farmer 88 94/viewport 90 95 clamp/faceDirection farmer 2 true/positionOffset farmer 0 15 true/pause 1500/faceDirection Lance 3 true/pause 750/faceDirection farmer 1 true/pause 500/speak Lance \"Ah. You catch onto new magic quickly, I see. Not too surprising, given your breadth of experience.$1\"/pause 1250/faceDirection Lance 2 true/pause 1000/faceDirection farmer 2 true/pause 1000/speak Lance \"Ah... now this is a view.$5\"/pause 500/globalFade/viewport 109 109 clamp true/viewport move -1 0 7250 true/pause 5000/globalFade/viewport 0 109 clamp true/viewport move 1 0 7250 true/pause 5000/globalFade/viewport 67 95 clamp true/faceDirection farmer 3 true/faceDirection Lance 3 true/pause 3500/speak Lance \"Have you learned about that ship yet, during your time on the island?$6#$b#They were sailing on a cloudy night, and the ship hit the reef and sank.$6#$b#Some of the sailors were washed away, but a few of them made it to shore and built new lives for themselves here.$6\"/pause 1250/globalFade/viewport 90 95 clamp true/pause 2000/speak Lance \"...$6#$b#Has Camilla spoken to you about visiting Castle Village yet?$6\"/pause 650/faceDirection farmer 2 true/pause 250/faceDirection farmer 1 true/pause 600/startJittering/pause 600/stopJittering/pause 500/speak Lance \"Strange... Rasmodia hasn't been quiet about your latent magical abilities.$6#$b#I wonder if she's waiting for something. Or it could be some kind of bizarre test...#6#$b#That's just the sort of thing she'd do.$5#$b#Here, let's go back down.$1\"/pause 850/showFrame Lance 13 true/pause 100/shake Lance 500/pause 150/showFrame Lance 16 true/pause 500/showFrame Lance 17 true/pause 500/showFrame Lance 18 true/pause 500/shake Lance 400/pause 400/screenFlash 2/playSound wand/showFrame Lance 4 true/warp Lance 80 87/positionOffset Lance -10 -12 true/pause 1500/faceDirection farmer 2 true/pause 1500/showFrame farmer 3 true/pause 500/startJittering/pause 500/screenFlash 2/playSound wand/stopJittering/warp farmer 82 87/viewport 81 88 clamp/faceDirection farmer 2 true/pause 1200/faceDirection farmer 3 true/pause 650/speak Lance \"Well, that Blink Relic was the only test I needed.$0#$b#You handled it as if you'd been working with magical objects for years.$1#$b#I'll take it back now, if you don't mind.$5\"/pause 750/speed farmer 1/move farmer -1 0 3/pause 500/showFrame farmer 7 true/pause 100/startJittering/pause 300/playSound dwop/pause 150/stopJittering/pause 100/showFrame farmer 6 true/pause 500/message \"The 'Blink Relic' was removed from my inventory.\"/pause 1000/speak Lance \"Whatever Camilla's up to, I'm sure that you and I will both learn about it soon.$0#$b#I'll be seeing more of you, @. Farewell, for now.$1\"/pause 750/faceDirection Lance 2 true/pause 650/showFrame Lance 20 true/pause 100/showFrame Lance 21 true/pause 100/showFrame Lance 22 true/pause 100/showFrame Lance 23 true/pause 100/showFrame Lance 24 true/pause 100/showFrame Lance 25 true/pause 100/showFrame Lance 26 true/pause 100/showFrame Lance 27 true/pause 100/showFrame Lance 40 true/pause 100/showFrame Lance 29 true/pause 100/showFrame Lance 30 true/pause 100/showFrame Lance 31 true/pause 100/showFrame Lance 32 true/pause 100/showFrame Lance 33 true/pause 100/showFrame Lance 34 true/pause 100/showFrame Lance 35 true/pause 100/showFrame Lance 36 true/pause 100/showFrame Lance 37 true/pause 100/showFrame Lance 38 true/pause 100/warp Lance -20 -20/pause 1000/globalFade/viewport -1000 -1000/pause 500/end dialogue Leo \"Hey. Who's that person with the red spiky hair? I've seen them in places on the island that are hard to climb.$0#$e#The birds say he's a good person!$1\""
 			},
@@ -776,13 +1129,13 @@
 		// SHRINE OF ILLUSIONS EVENT SVE
 		{
 			"Action": "Load",
-			"Target": "Portraits/Witch",
+			"Target": "Portraits/{{RasmodiaName}}",
 			"When": { "HasMod": "FlashShifter.StardewValleyExpandedCP" },
 			"FromFile": "assets/ShrinePortrait.png"
 		},
 		{
 			"Action": "Load",
-			"Target": "Characters/Witch",
+			"Target": "Characters/{{RasmodiaName}}",
 			"When": { "HasMod": "FlashShifter.StardewValleyExpandedCP" },
 			"FromFile": "assets/ShrineWitch.png"
 		},
@@ -792,7 +1145,7 @@
 			"Target": "data/events/wizardhouse",
 			"When": { "HasMod": "FlashShifter.StardewValleyExpandedCP" },
 			"Entries": {
-			"1724095/g female/n ShrineOfIllusionsLetter": "WizardSong/-500 -500/farmer -100 -100 0 Wizard 7 29 0/addTemporaryActor Witch 16 32 -105 -105 0/addTemporaryActor FemaleFarmer 16 32 -104 -104 0/pause 1000/showFrame Wizard 17/viewport 9 30 true/skippable/pause 1300/shake Wizard 250/playSound leafrustle/pause 1200/shake Wizard 250/playSound leafrustle/pause 1200/playSound doorClose/warp farmer 9 34/pause 1100/shake Wizard 250/playSound leafrustle/pause 300/move farmer 0 -5 3/pause 600/playSound leafrustle/shake Wizard 300/pause 1500/speak Wizard \"Just a moment...\"/pause 900/shake Wizard 250/playSound leafrustle/pause 1250/shake Wizard 250/playSound leafrustle/pause 1000/shake Wizard 250/playSound leafrustle/pause 500/emote farmer 8/pause 600/showFrame Wizard 8/pause 600/faceDirection Wizard 1 true/pause 500/speak Wizard \"Hmm?#$b#I'm gathering herbs for your elixir.\"/pause 700/emote farmer 60/pause 100/speak Wizard \"Heh. Have no fear, @.$1#$b#You have my assurance that it won't be as harsh as the first one you drank.#$b#Come. Join me at the cauldron.\"/pause 400/globalFade/viewport -1000 -1000 true/warp Wizard 3 19/warp farmer 6 19/faceDirection Wizard 2/viewport 6 20 true/pause 2000/playSound pullItemFromWater/shake Wizard 700/pause 1600/speak Wizard \"One final touch...\"/pause 600/showFrame Wizard 16/pause 800/screenFlash .5/playSound healSound/pause 400/screenFlash .5/playSound healSound/pause 700/showFrame Wizard 0/pause 700/faceDirection Wizard 1 true/pause 500/speak Wizard \"The elixir is complete.#$b#With this, you can begin accumulating mana from the world around you, allowing you to cast some minor magic.#$b#Here. Drink up.\"/pause 600/move farmer -2 0 3/pause 600/faceDirection farmer 2 true/pause 300/playSound dwop/showFrame farmer 90/pause 1000/showFrame farmer 91/pause 200/showFrame farmer 93/playSound gulp/pause 200/showFrame farmer 92/pause 200/showFrame farmer 93/pause 200/showFrame farmer 92/pause 200/showFrame farmer 93/pause 200/showFrame farmer 92/showFrame farmer 91/pause 100/showFrame farmer 90/showFrame farmer 0/pause 900/glow 0 0 200/playSound coldSpell/pause 800/glow 0 0 255/pause 500/glow 0 0 140/pause 700/message \"The elixir tasted like cotton candy.\"/pause 800/faceDirection farmer 3 true/pause 400/emote farmer 32/pause 200/speak Wizard \"Good. Now, when you're ready, join me downstairs in my study.\"/pause 400/globalFade/viewport -1000 -1000/changeLocation Custom_WizardBasement/warp Wizard 23 6/warp farmer 20 6/faceDirection Wizard 3 true/faceDirection farmer 1 true/viewport 16 6 true/pause 1200/speak Wizard \"First, a demonstration.\"/stopMusic/pause 700/faceDirection Wizard 0/pause 800/showFrame Wizard 17/pause 700/shake Wizard 800/pause 700/screenFlash 2/playSound healSound/playSound yoba/warp Wizard -300 -300/warp Witch 23 6/pause 800/emote farmer 16/pause 400/faceDirection Witch 3/pause 600/speak Witch \"...$0\"/pause 600/faceDirection Witch 0 true/pause 700/showFrame Witch 17/pause 900/screenFlash 2/playSound healSound/playSound yoba/warp Witch -300 -300/warp Wizard 23 6/pause 1000/faceDirection Wizard 3 true/pause 500/speak Wizard \"Now. You try.\"/pause 400/globalFade/viewport -1000 -1000 true/warp Wizard 20 6/warp farmer 23 6/faceDirection Wizard 1 true/faceDirection farmer 0 true/viewport 16 6 true/pause 2200/startJittering/pause 800/screenFlash 2/playSound healSound/playSound yoba/stopJittering/warp farmer -200 -200/warp FemaleFarmer 23 6/pause 1400/faceDirection FemaleFarmer 3 true/pause 1300/speak Wizard \"Ah! On your first attempt, no less. Marvelous!$1\"/pause 800/faceDirection FemaleFarmer 0/pause 1200/screenFlash 2/playSound healSound/playSound yoba/warp FemaleFarmer -195 -195/warp farmer 23 6/pause 1750/faceDirection farmer 3 true/pause 600/speak Wizard \"Most impressive, @.#$b#Perhaps in the future, I'll teach you some more spells.$0#$b#If your aptitude is as high as it seems, we may even explore some higher theory about the governing laws that bind our world.\"/pause 700/jump farmer/pause 700/speak Wizard \"Glad to see the prospect excites you.\"/pause 700/globalFade/viewport -1000 -1000/pause 1000/playSound reward/message \"I can now use 'The Shrine of Illusions'!\"/pause 1000/end dialogue Wizard \"The ability to change your appearance is a great responsibility.#$b#Don't go too overboard.#$e#Consider this a test to determine if you have the aptitude to continue your magical studies with me.\"",
+			"1724095/g female/n ShrineOfIllusionsLetter": "WizardSong/-500 -500/farmer -100 -100 0 Wizard 7 29 0/addTemporaryActor {{RasmodiaName}} 16 32 -105 -105 0/addTemporaryActor FemaleFarmer 16 32 -104 -104 0/pause 1000/showFrame Wizard 17/viewport 9 30 true/skippable/pause 1300/shake Wizard 250/playSound leafrustle/pause 1200/shake Wizard 250/playSound leafrustle/pause 1200/playSound doorClose/warp farmer 9 34/pause 1100/shake Wizard 250/playSound leafrustle/pause 300/move farmer 0 -5 3/pause 600/playSound leafrustle/shake Wizard 300/pause 1500/speak Wizard \"Just a moment...\"/pause 900/shake Wizard 250/playSound leafrustle/pause 1250/shake Wizard 250/playSound leafrustle/pause 1000/shake Wizard 250/playSound leafrustle/pause 500/emote farmer 8/pause 600/showFrame Wizard 8/pause 600/faceDirection Wizard 1 true/pause 500/speak Wizard \"Hmm?#$b#I'm gathering herbs for your elixir.\"/pause 700/emote farmer 60/pause 100/speak Wizard \"Heh. Have no fear, @.$1#$b#You have my assurance that it won't be as harsh as the first one you drank.#$b#Come. Join me at the cauldron.\"/pause 400/globalFade/viewport -1000 -1000 true/warp Wizard 3 19/warp farmer 6 19/faceDirection Wizard 2/viewport 6 20 true/pause 2000/playSound pullItemFromWater/shake Wizard 700/pause 1600/speak Wizard \"One final touch...\"/pause 600/showFrame Wizard 16/pause 800/screenFlash .5/playSound healSound/pause 400/screenFlash .5/playSound healSound/pause 700/showFrame Wizard 0/pause 700/faceDirection Wizard 1 true/pause 500/speak Wizard \"The elixir is complete.#$b#With this, you can begin accumulating mana from the world around you, allowing you to cast some minor magic.#$b#Here. Drink up.\"/pause 600/move farmer -2 0 3/pause 600/faceDirection farmer 2 true/pause 300/playSound dwop/showFrame farmer 90/pause 1000/showFrame farmer 91/pause 200/showFrame farmer 93/playSound gulp/pause 200/showFrame farmer 92/pause 200/showFrame farmer 93/pause 200/showFrame farmer 92/pause 200/showFrame farmer 93/pause 200/showFrame farmer 92/showFrame farmer 91/pause 100/showFrame farmer 90/showFrame farmer 0/pause 900/glow 0 0 200/playSound coldSpell/pause 800/glow 0 0 255/pause 500/glow 0 0 140/pause 700/message \"The elixir tasted like cotton candy.\"/pause 800/faceDirection farmer 3 true/pause 400/emote farmer 32/pause 200/speak Wizard \"Good. Now, when you're ready, join me downstairs in my study.\"/pause 400/globalFade/viewport -1000 -1000/changeLocation Custom_WizardBasement/warp Wizard 23 6/warp farmer 20 6/faceDirection Wizard 3 true/faceDirection farmer 1 true/viewport 16 6 true/pause 1200/speak Wizard \"First, a demonstration.\"/stopMusic/pause 700/faceDirection Wizard 0/pause 800/showFrame Wizard 17/pause 700/shake Wizard 800/pause 700/screenFlash 2/playSound healSound/playSound yoba/warp Wizard -300 -300/warp {{RasmodiaName}} 23 6/pause 800/emote farmer 16/pause 400/faceDirection {{RasmodiaName}} 3/pause 600/speak {{RasmodiaName}} \"...$0\"/pause 600/faceDirection {{RasmodiaName}} 0 true/pause 700/showFrame {{RasmodiaName}} 17/pause 900/screenFlash 2/playSound healSound/playSound yoba/warp {{RasmodiaName}} -300 -300/warp Wizard 23 6/pause 1000/faceDirection Wizard 3 true/pause 500/speak Wizard \"Now. You try.\"/pause 400/globalFade/viewport -1000 -1000 true/warp Wizard 20 6/warp farmer 23 6/faceDirection Wizard 1 true/faceDirection farmer 0 true/viewport 16 6 true/pause 2200/startJittering/pause 800/screenFlash 2/playSound healSound/playSound yoba/stopJittering/warp farmer -200 -200/warp FemaleFarmer 23 6/pause 1400/faceDirection FemaleFarmer 3 true/pause 1300/speak Wizard \"Ah! On your first attempt, no less. Marvelous!$1\"/pause 800/faceDirection FemaleFarmer 0/pause 1200/screenFlash 2/playSound healSound/playSound yoba/warp FemaleFarmer -195 -195/warp farmer 23 6/pause 1750/faceDirection farmer 3 true/pause 600/speak Wizard \"Most impressive, @.#$b#Perhaps in the future, I'll teach you some more spells.$0#$b#If your aptitude is as high as it seems, we may even explore some higher theory about the governing laws that bind our world.\"/pause 700/jump farmer/pause 700/speak Wizard \"Glad to see the prospect excites you.\"/pause 700/globalFade/viewport -1000 -1000/pause 1000/playSound reward/message \"I can now use 'The Shrine of Illusions'!\"/pause 1000/end dialogue Wizard \"The ability to change your appearance is a great responsibility.#$b#Don't go too overboard.#$e#Consider this a test to determine if you have the aptitude to continue your magical studies with me.\"",
 			},
 		},
 		//WIZARD EVENT 3 - 'Shrine of Illusions' (Male)
@@ -801,7 +1154,7 @@
 			"Target": "data/events/wizardhouse",
 			"When": { "HasMod": "FlashShifter.StardewValleyExpandedCP" },
 			"Entries": {
-			"1724095/g male/n ShrineOfIllusionsLetter": "WizardSong/-500 -500/farmer -100 -100 0 Wizard 7 29 0/addTemporaryActor Witch 16 32 -105 -105 0/addTemporaryActor MaleFarmer 16 32 -104 -104 0/pause 1000/showFrame Wizard 17/viewport 9 30 true/skippable/pause 1300/shake Wizard 250/playSound leafrustle/pause 1200/shake Wizard 250/playSound leafrustle/pause 1200/playSound doorClose/warp farmer 9 34/pause 1100/shake Wizard 250/playSound leafrustle/pause 300/move farmer 0 -5 3/pause 600/playSound leafrustle/shake Wizard 300/pause 1500/speak Wizard \"Just a moment...\"/pause 900/shake Wizard 250/playSound leafrustle/pause 1250/shake Wizard 250/playSound leafrustle/pause 1000/shake Wizard 250/playSound leafrustle/pause 500/emote farmer 8/pause 600/showFrame Wizard 8/pause 600/faceDirection Wizard 1 true/pause 500/speak Wizard \"Hmm?#$b#I'm gathering herbs for your elixir.\"/pause 700/emote farmer 60/pause 100/speak Wizard \"Heh. Have no fear, @.$1#$b#You have my assurance that it won't be as harsh as the first one you drank.#$b#Come. Join me at the cauldron.\"/pause 400/globalFade/viewport -1000 -1000 true/warp Wizard 3 19/warp farmer 6 19/faceDirection Wizard 2/viewport 6 20 true/pause 2000/playSound pullItemFromWater/shake Wizard 700/pause 1600/speak Wizard \"One final touch...\"/pause 600/showFrame Wizard 16/pause 800/screenFlash .5/playSound healSound/pause 400/screenFlash .5/playSound healSound/pause 700/showFrame Wizard 0/pause 700/faceDirection Wizard 1 true/pause 500/speak Wizard \"The elixir is complete.#$b#With this, you can begin accumulating mana from the world around you, allowing you to cast some minor magic.#$b#Here. Drink up.\"/pause 600/move farmer -2 0 3/pause 600/faceDirection farmer 2 true/pause 300/playSound dwop/showFrame farmer 90/pause 1000/showFrame farmer 91/pause 200/showFrame farmer 93/playSound gulp/pause 200/showFrame farmer 92/pause 200/showFrame farmer 93/pause 200/showFrame farmer 92/pause 200/showFrame farmer 93/pause 200/showFrame farmer 92/showFrame farmer 91/pause 100/showFrame farmer 90/showFrame farmer 0/pause 900/glow 0 0 200/playSound coldSpell/pause 800/glow 0 0 255/pause 500/glow 0 0 140/pause 700/message \"The elixir tasted like cotton candy.\"/pause 800/faceDirection farmer 3 true/pause 400/emote farmer 32/pause 200/speak Wizard \"Good. Now, when you're ready, join me downstairs in my study.\"/pause 400/globalFade/viewport -1000 -1000/changeLocation Custom_WizardBasement/warp Wizard 23 6/warp farmer 20 6/faceDirection Wizard 3 true/faceDirection farmer 1 true/viewport 16 6 true/pause 1200/speak Wizard \"First, a demonstration.\"/stopMusic/pause 700/faceDirection Wizard 0/pause 800/showFrame Wizard 17/pause 700/shake Wizard 800/pause 700/screenFlash 2/playSound healSound/playSound yoba/warp Wizard -300 -300/warp Witch 23 6/pause 800/emote farmer 16/pause 400/faceDirection Witch 3/pause 600/speak Witch \"...$0\"/pause 600/faceDirection Witch 0 true/pause 700/showFrame Witch 17/pause 900/screenFlash 2/playSound healSound/playSound yoba/warp Witch -300 -300/warp Wizard 23 6/pause 1000/faceDirection Wizard 3 true/pause 500/speak Wizard \"Now. You try.\"/pause 400/globalFade/viewport -1000 -1000 true/warp Wizard 20 6/warp farmer 23 6/faceDirection Wizard 1 true/faceDirection farmer 0 true/viewport 16 6 true/pause 2200/startJittering/pause 800/screenFlash 2/playSound healSound/playSound yoba/stopJittering/warp farmer -200 -200/warp MaleFarmer 23 6/pause 1400/faceDirection MaleFarmer 3 true/pause 1300/speak Wizard \"Ah! On your first attempt, no less. Marvelous!$1\"/pause 800/faceDirection MaleFarmer 0/pause 1200/screenFlash 2/playSound healSound/playSound yoba/warp MaleFarmer -195 -195/warp farmer 23 6/pause 1750/faceDirection farmer 3 true/pause 600/speak Wizard \"Most impressive, @.#$b##Perhaps in the future, I'll teach you some more spells.$0#$b#If your aptitude is as high as it seems, we may even explore some higher theory about the governing laws that bind our world.\"/pause 700/jump farmer/pause 700/speak Wizard \"Glad to see the prospect excites you.\"/pause 700/globalFade/viewport -1000 -1000/pause 1000/playSound reward/message \"I can now use 'The Shrine of Illusions'!\"/pause 1000/end dialogue Wizard \"The ability to change your appearance is a great responsibility.#$b#Don't go too overboard.#$e#Consider this a test to determine if you have the aptitude to continue your magical studies with me.\"",
+			"1724095/g male/n ShrineOfIllusionsLetter": "WizardSong/-500 -500/farmer -100 -100 0 Wizard 7 29 0/addTemporaryActor {{RasmodiaName}} 16 32 -105 -105 0/addTemporaryActor MaleFarmer 16 32 -104 -104 0/pause 1000/showFrame Wizard 17/viewport 9 30 true/skippable/pause 1300/shake Wizard 250/playSound leafrustle/pause 1200/shake Wizard 250/playSound leafrustle/pause 1200/playSound doorClose/warp farmer 9 34/pause 1100/shake Wizard 250/playSound leafrustle/pause 300/move farmer 0 -5 3/pause 600/playSound leafrustle/shake Wizard 300/pause 1500/speak Wizard \"Just a moment...\"/pause 900/shake Wizard 250/playSound leafrustle/pause 1250/shake Wizard 250/playSound leafrustle/pause 1000/shake Wizard 250/playSound leafrustle/pause 500/emote farmer 8/pause 600/showFrame Wizard 8/pause 600/faceDirection Wizard 1 true/pause 500/speak Wizard \"Hmm?#$b#I'm gathering herbs for your elixir.\"/pause 700/emote farmer 60/pause 100/speak Wizard \"Heh. Have no fear, @.$1#$b#You have my assurance that it won't be as harsh as the first one you drank.#$b#Come. Join me at the cauldron.\"/pause 400/globalFade/viewport -1000 -1000 true/warp Wizard 3 19/warp farmer 6 19/faceDirection Wizard 2/viewport 6 20 true/pause 2000/playSound pullItemFromWater/shake Wizard 700/pause 1600/speak Wizard \"One final touch...\"/pause 600/showFrame Wizard 16/pause 800/screenFlash .5/playSound healSound/pause 400/screenFlash .5/playSound healSound/pause 700/showFrame Wizard 0/pause 700/faceDirection Wizard 1 true/pause 500/speak Wizard \"The elixir is complete.#$b#With this, you can begin accumulating mana from the world around you, allowing you to cast some minor magic.#$b#Here. Drink up.\"/pause 600/move farmer -2 0 3/pause 600/faceDirection farmer 2 true/pause 300/playSound dwop/showFrame farmer 90/pause 1000/showFrame farmer 91/pause 200/showFrame farmer 93/playSound gulp/pause 200/showFrame farmer 92/pause 200/showFrame farmer 93/pause 200/showFrame farmer 92/pause 200/showFrame farmer 93/pause 200/showFrame farmer 92/showFrame farmer 91/pause 100/showFrame farmer 90/showFrame farmer 0/pause 900/glow 0 0 200/playSound coldSpell/pause 800/glow 0 0 255/pause 500/glow 0 0 140/pause 700/message \"The elixir tasted like cotton candy.\"/pause 800/faceDirection farmer 3 true/pause 400/emote farmer 32/pause 200/speak Wizard \"Good. Now, when you're ready, join me downstairs in my study.\"/pause 400/globalFade/viewport -1000 -1000/changeLocation Custom_WizardBasement/warp Wizard 23 6/warp farmer 20 6/faceDirection Wizard 3 true/faceDirection farmer 1 true/viewport 16 6 true/pause 1200/speak Wizard \"First, a demonstration.\"/stopMusic/pause 700/faceDirection Wizard 0/pause 800/showFrame Wizard 17/pause 700/shake Wizard 800/pause 700/screenFlash 2/playSound healSound/playSound yoba/warp Wizard -300 -300/warp {{RasmodiaName}} 23 6/pause 800/emote farmer 16/pause 400/faceDirection {{RasmodiaName}} 3/pause 600/speak {{RasmodiaName}} \"...$0\"/pause 600/faceDirection {{RasmodiaName}} 0 true/pause 700/showFrame {{RasmodiaName}} 17/pause 900/screenFlash 2/playSound healSound/playSound yoba/warp {{RasmodiaName}} -300 -300/warp Wizard 23 6/pause 1000/faceDirection Wizard 3 true/pause 500/speak Wizard \"Now. You try.\"/pause 400/globalFade/viewport -1000 -1000 true/warp Wizard 20 6/warp farmer 23 6/faceDirection Wizard 1 true/faceDirection farmer 0 true/viewport 16 6 true/pause 2200/startJittering/pause 800/screenFlash 2/playSound healSound/playSound yoba/stopJittering/warp farmer -200 -200/warp MaleFarmer 23 6/pause 1400/faceDirection MaleFarmer 3 true/pause 1300/speak Wizard \"Ah! On your first attempt, no less. Marvelous!$1\"/pause 800/faceDirection MaleFarmer 0/pause 1200/screenFlash 2/playSound healSound/playSound yoba/warp MaleFarmer -195 -195/warp farmer 23 6/pause 1750/faceDirection farmer 3 true/pause 600/speak Wizard \"Most impressive, @.#$b##Perhaps in the future, I'll teach you some more spells.$0#$b#If your aptitude is as high as it seems, we may even explore some higher theory about the governing laws that bind our world.\"/pause 700/jump farmer/pause 700/speak Wizard \"Glad to see the prospect excites you.\"/pause 700/globalFade/viewport -1000 -1000/pause 1000/playSound reward/message \"I can now use 'The Shrine of Illusions'!\"/pause 1000/end dialogue Wizard \"The ability to change your appearance is a great responsibility.#$b#Don't go too overboard.#$e#Consider this a test to determine if you have the aptitude to continue your magical studies with me.\"",
 			},
 		},
 
@@ -848,6 +1201,7 @@
 			"spring_24": "...You want me to attend the Flower Dance?$3#$b#I think not. Such frivolous displays are beyond me.#$b#Besides, I'm much too untrained to dance.$1#$b#You'll just have to enjoy yourself without me.$9#$e#...#$b#Please don't dance with anyone else.$4",
             "winter_Mon10": "I wish I could reveal my true name to you, @. In truth, I just don't remember it.$4#$b#Was it Emma? Or Kate? Maybe Anna?$3#$b#I think it was a good name. It's hard to know.$3#$e#Maybe it was @! Imagine that?$1",
             "winter_2": "I wish I could reveal my true name to you, @. In truth, I just don't remember it.$1#$b#Was it Emma? Or Kate? Maybe Anna?$3#$b#I think it was a good name. It's hard to know.$3#$e#Maybe it was @! Imagine that?$1",
+			"spring_Fri6": "All the powers in the universe are not enough to fix a broken heart. It can be mended, but once shattered, so shall it remain.$2#$b#Someday I will find a way to fix my own, but even that may take centuries.$8#$b#Sorry to bore you with problems of this lonely witch.$0#$e#Focus your mind today, @, and be at peace.$1",
 			}
         },
 		
@@ -987,137 +1341,48 @@
 // M O D   C O M P A T I B I L I T Y
 
 // Mr. Ginger
-
-		// Jas Dialogue
-        {
-            "LogName": "Dialogue Jas",
-            "Action": "EditData",
-			"When": { "HasMod": "LemurKat.Mr.Ginger.NPC" },
-            "Target": "Characters/Dialogue/Jas",
-            "Entries": {
-                "fall_Mon8": "You know the woman in the tower? She's a witch.#$b#Aunt Marnie told me I shouldn't talk to her, but she must be lonely, living in that tower all by herself.#$b#Mr. Ginger visits her sometimes.",
-                "winter_Mon10": "Do you think Ms. Rasmodia is anything like Chrestomanci$3?#$b#How do I know her name? Mr. Ginger told me!$1#$b#Oh, I know _cats_ can't talk. But Mr. Ginger is more than a cat.#$b#What is he then? That's a secret!",
-            }
-        },
-		// Mr. Ginger Dialogue
-		{
-            "LogName": "Dialogue 6-hearts",
-            "Action": "EditData",
-            "Target": "Characters/Dialogue/MisterGinger",
-            "When": {
-                "HasSeenEvent |contains=50706121": true,
-				"HasMod": "LemurKat.Mr.Ginger.NPC"
-				},
-            "Entries": {
-				"MrG_Fairytale": "$p 910#You know the story of the Frog Prince? I asked Ras if that would work...She said 'no'.$2|Hey, if you fall out of a tree, do YOU land on your feet? Thought not! Superior species over here.$4",
-                "winter_Sun10": "Ras doesn't have many friends, but I've seen her with that recluse in the woods.#$b#You know, Linus? The man that smells like rich earth and fish-meat.",
-                "spring_Sun_inlaw_Wizard": "I'm glad Ras is no longer alone. Although I'm sure you'll find her company gets tiresome in large doses.",
-                "Sun": "Rasmodia proves quite acceptable company. Why yes, you are too, @. Acceptable. Quite acceptable.$1",
-			}
-		},
-		
-		{
-            "Action": "EditData",
-            "Target": "Data/mail",
-			"When": { "HasMod": "LemurKat.Mr.Ginger.NPC" },
-            "Entries": {
-				"Wizard_CatTalk": "Greetings young adept,^ Our mutual acquaintance has requested your presence in my tower, after the hours of darkness. Please bring a fragment of the Void. ^    -M. Rasmodia, Witch.[#]An invitation",
-            },
-        },
-		
-		{
-            "Action": "EditData",
-            "Target": "Data/mail",
-			"When": { "HasMod": "LemurKat.Mr.Ginger.NPC", "Relationship:Wizard": "Married" },
-            "Entries": {
-				"Wizard_CatTalk": "Greetings my love,^ Our mutual acquaintance has requested your presence in my tower, after the hours of darkness. Please bring a fragment of the Void. ^    - Rasmodia[#]An invitation",
-            },
-        },
-		
-		{
-			"Action": "EditData",
-			"Target": "Data/EngagementDialogue",
-			"When": { "HasMod": "LemurKat.Mr.Ginger.NPC" },
-			"Entries": {
-				"MisterGinger1": "Do you doubt me, @? Everything is under control. I have contacts, you know.$1#$b#Well, _a_ contact, and that's Ras. But she's pretty good at getting stuff sorted.$4",
-			},
-		},
-		
-		{
-			//6-heart Event
-			"Action": "EditData",
-			"Target": "Data/Events/WizardHouse",
-			"When": { "HasMod": "LemurKat.Mr.Ginger.NPC" },
-			"Entries": {
-				"50706121/f MisterGinger 1500/t 1800 2400/Hl Tristan_Returns/n Wizard_CatTalk/i 769": "WizardSong/-1000 -1000/farmer -100 -100 0 Wizard 3 17 2 MisterGinger 2 17 1/removeItem 769/skippable/viewport 8 19 true/pause 1000/faceDirection Wizard 3/speak Wizard \"I'm sorry I cannot help you with your more pressing problem, Trix. But perhaps... well, none of us can know what the future holds.\"/pause 500/playSound cat/pause 250/speak Wizard \"Oh yes, correct, except for Madame Welwick, but she's staying mute on this particular topic.\"/pause 500/playSound cat/pause 1000/playSound cat/speak Wizard \"I know, I know. But patience, they say, is a virtue, and perhaps... well perhaps tonight will set the cogs in motion... the wheel turning...\"/playSound cat/pause 250/speak Wizard \"Okay, yes, I'm waffling again. I've been alone too long, my friend.\"/pause 500/playSound stoneStep/faceDirection MisterGinger 2/faceDirection Wizard 2/pause 250/speak Wizard \"And right on time. Our guest has arrived.\"/pause 500/playSound doorOpen/warp farmer 9 24/move farmer 0 -4 0/pause 250/speak Wizard \"Hello @, I'm pleased you could join us.\"/move farmer -2 0 3/move farmer 0 -3 3/pause 500/playSound cat/pause 250/faceDirection Wizard 3/speak Wizard \"Yes, yes I know. Please, patience!\"/pause 500/faceDirection Wizard 1/speak Wizard \"Have you brought the item requested, @?\"/pause 500/move farmer -3 0 3/pause 250/playSound coin/speak Wizard \"Excellent, this should fulfil my requirements precisely. Let us begin!#$b#What are we brewing? Oh, that's a surprise.$h\"/move Wizard 0 2 2/faceDirection farmer 2/faceDirection MisterGinger 1/pause 500/speak Wizard \"Right, here we go: an ounce of powdered stardust. A dram of pigeon's blood. The petals of a fairy rose.#$b#And, thanks to you, @, the final ingredient, the coup de grace: a fragment of darkness, a splinter from the heart of the void...\"/pause 250/playSound cat/speak Wizard \"You get the idea!$h\"/pause 500/playSound dropItemInWater/move farmer 0 2 2/pause 250/showFrame Wizard 18/showFrame 96/pause 1000/speak Wizard \"Here. Drink up. I know last time was less than pleasant, but the benefit outweighs the cost, does it not?$h\"/pause 800/emote farmer 28/faceDirection MisterGinger 1/playSound cat/pause 500/showFrame Wizard 19/pause 800/showFrame farmer 90/faceDirection Wizard 2/pause 1000/farmerEat 184/pause 4000/playSound gulp/move farmer 0 -1 2/animate farmer false true 350 104 105/pause 4000/globalFade .008/viewport -1000 -1000/stopAnimation farmer/faceDirection farmer 2/warp MisterGinger 5 18/warp Wizard 3 18 1/faceDirection Wizard 1/faceDirection MisterGinger 3/playMusic none/pause 500/viewport 8 19 true/pause 500/speak MisterGinger \"@? @!$2\"/pause 500/speak MisterGinger \"Hello? @? Did it work?$2\"/pause 500/emote Wizard 8/pause 500/speak MisterGinger \"@? Are you okay?\"/pause 250/quickQuestion #I can't feel my feet.#Oh look, a talking cat!#It needed a slice of lemon.#That's the last time I'm drinking anything you offer!(break)emote Wizard 40\\speak Wizard \"I must say, that's rather an unexpected side effect, but I'm sure it'll wear off in no time.#$b#No time at all\"(break)speak MisterGinger \"It worked! It actually worked. Sorry I doubted you, Ras.$4\"(break)speak MisterGinger \"Hey Ras, sounds like someone appreciates your culinary talents!\"(break)speak Wizard \"You say that now, @, but you cannot deny that my brews are quite beneficial.\"/pause 500/faceDirection farmer 1/pause 500/emote farmer 16/speak MisterGinger \"Hey, @. It's great to have someone else to talk to.#$b#I mean, Ras is fine - but she's a bit tail-in-the-air, don't you think?...$1\"/pause 250/emote Wizard 12/pause 500/speak Wizard \"I can hear you, you know. Kitty.\"/pause 250/speak MisterGinger \"Kitty... She knows I hate that name. So demeaning. Like I'm some sort of common house pet.$5#$b#Please don't ever call me kitty, @.$1\"/emote farmer 32/pause 1000/end dialogue MisterGinger \"Anyone can talk to animals, but it takes a special kind of person to _listen_ to them.#$b#Yes, that's a compliment. Don't get used to them. I've got a reputation to uphold, you know.\"",
-			},
-		},
+    {
+      "Action": "Include",
+	  "When": { "HasMod": "LemurKat.Mr.Ginger.NPC" },
+      "FromFile": "data/Ginger_comp.json"
+    },
 
 // Tristan
-		{
-            "LogName": "Wizard reacts",
-            "Action": "EditData",
-            "Target": "Characters/Dialogue/Wizard",
-            "Entries": {
-                "Tristan_Discuss": "You seek knowledge of Tristan? Ah, he was a wildcard. Perceived himself as invincible, and quite led young Mona astray. Or perhaps she led him astray? Hmm... nevermind.#$b#%She leans forward to whisper in your ear.#$b#If you desire further knowledge, visit me in the tower. For the forest has ears, and she may hear us."
-            },
-            "When": {
-                "HasSeenEvent |contains=5295006": false,
-				"HasMod": "Lemurkat.Tristan.CP"
-            }
-        },
-		
-		{
-            "LogName": "Jasper reacts",
-            "Action": "EditData",
-            "Target": "Characters/Dialogue/Jasper",
-            "Entries": {
-                "Tristan_Discuss": "Oh yes, Tristan. Poor kid. He was a few years younger than I, and friends with Shane, I believe.$3#$b#We trained for the Adventurer's Guild together, back in the days when it was all a bit of a lark.$1#$b#I joined Marlon and Rasmodia on the search of the caves. It sorrows me greatly that we never managed to bring him home.$2",
-            }
-        },
-		
-		{
-            "LogName": "Jas reacts",
-            "Action": "EditData",
-			"When": { "HasMod": "Lemurkat.Tristan.CP" },
-            "Target": "Characters/Dialogue/Jas",
-            "Entries": {
-                "winter_Mon10": "Do you think Ms. Rasmodia is anything like Chrestomanci$3?#$b#Uncle Shane and I have been reading the books together. I think he likes them more than I do!$1",
-                "fall_Mon8": "Dad visits Ms. Rasmodia sometimes. I'm glad. It must get lonely living in that tower all by herself.#$b#Maybe we should bake her cookies!$1",
-				},
-            "When": {
-                "HasSeenEvent": "5295000",
-				"HasMod": "Lemurkat.Tristan.CP"
-				}
-        },
+    {
+      "Action": "Include",
+	  "When": { "HasMod": "Lemurkat.Tristan.CP" },
+      "FromFile": "data/AGE_comp.json"
+    },
+	
+// Adventurer's Guild Expanded
+    {
+      "Action": "Include",
+	  "When": { "HasMod": "supert.adventureguildexpanded" },
+      "FromFile": "data/AGE_comp.json"
+    },
+	
+// Juna NPC
 
-		{
-            "Action": "EditData",
-            "Target": "Data/mail",
-			"When": { "HasMod": "Lemurkat.Tristan.CP" },
-            "Entries": {
-                "Wizard_CatPicnic": "Greetings young adept,^ Our mutual friend requests your presence before the gaze of Old Man Cannoli, after the fall of darkness.^  M. Rasmodia, Witch.[#]An Invitation"
-            },
-        },
-		
-		{
-            "Action": "EditData",
-            "Target": "Data/mail",
-			"When": { "HasMod": "Lemurkat.Tristan.CP", "Relationship:Wizard": "Married" },
-            "Entries": {
-                "Wizard_CatPicnic": "Greetings my love,^ Our mutual friend requests your presence before the gaze of Old Man Cannoli, after the fall of darkness.^  - Rasmodia[#]An Invitation"
-            },
-        },
-		
-		        //Initiation event (Has seen all of Jas's, Mr Ginger's events, plus Shane's 8 heart)
-        {
-            "Action": "EditData",
-            "Target": "Data/Events/AnimalShop",
-			"When": { "HasMod": "Lemurkat.Tristan.CP" },
-            "Entries": {
-                "5295003/e 50706129/e 50706116/e 3900074/e 50706127/p Jas": "jaunty/-200 -200/Jas 5 5 3 MisterGinger 4 5 1 farmer 9 18 3/addTemporaryActor MonaCute 16 16 -100 -101 2 false/addTemporaryActor TristanCute 16 16 -99 -101 2 false/addTemporaryActor WitchCute 16 32 -1000 -1000 2 false/addTemporaryActor GingerCute 16 16 -1000 -1000 2 false/addTemporaryActor JasCute 16 16 -1000 -1000 2 false/addTemporaryActor MarnShane 32 16 -1000 -1000 2 false/addTemporaryActor MarnCute 16 16 -1000 -1000 2 false/addConversationTopic Tristan_Discuss 5/skippable/viewport 5 7 clamp true/pause 500/speak Jas \"... It's time we told him, isn't it Mr Ginger?^It's time we told her, isn't it Mr Ginger?\"/pause 500/move farmer -3 0 0/pause 500/playSound cat/pause 500/speak Jas \"I know you're worried, but it'll work, he'll believe me, I know it!^I know you're worried, but it'll work, she'll believe me, I know it!#$b#If anyone can help, it's farmer @!\"/move farmer 0 -5 0/faceDirection Jas 2/pause 500/textAboveHead Jas \"Shsh\"/pause 1000/faceDirection Jas 3/speak Jas \"(whispers) He's here now... Are you ready?$2^(whispers) She's here now... Are you ready?$2\"/pause 500/playSound cat/showFrame MisterGinger 28/positionOffset Jas -12 0/pause 1000/emote MisterGinger 20/pause 1000/faceDirection MisterGinger 2/warp Jas 5 5/faceDirection Jas 2/pause 500/doAction 6 12/playSound doorOpen/move farmer 0 -5 0/pause 500/emote Jas 32/move MisterGinger 0 2 1/speak Jas \"Oh, hello farmer @! I've just been writing a story for school. Do you wanna hear it?$1\"/emote farmer 56/pause 500/emote Jas 32/move MisterGinger 0 -1 1/move farmer 0 -2 3/pause 500/speak Jas \"It's a bit sad, isn't it Mr Ginger?\"/pause 500/speak MisterGinger \"It is.$2#$b#But I really hope it'll have a happy ending.$4\"/stopMusic/pause 500/fade/viewport -100 -98/warp MisterGinger -1000 -1000/warp Jas -1000 -1000/warp farmer -1000 -1000/speak Jas \"Once upon a time, there was a man called Tristan and a woman. Her name was Mona.\"/pause 500/faceDirection MonaCute 1/faceDirection TristanCute 3/speak Jas \"...and they really, really loved each other.\"/pause 500/showFrame TristanCute 16/showFrame MonaCute 16/showFrame TristanCute 17/showFrame MonaCute 17/pause 500/emote TristanCute 20/emote MonaCute 20/pause 500/speak Jas \"They had heaps of adventures, and fought monsters, and were both very brave!$4\"/faceDirection MonaCute 0/animate MonaCute false true 250 8 9 10 11/animate TristanCute false true 250 8 9 10 11/pause 1000/speak Jas \"One day they found a very weird place. A scary place.$3\"/pause 500/stopAnimation MonaCute/faceDirection MonaCute 1/stopAnimation TristanCute/faceDirection TristanCute 3/emote TristanCute 16/pause 1000/changeLocation WitchSwamp/viewport -100 -100/warp MonaCute 20 21/warp TristanCute 21 21/fade/playMusic Overcast/viewport 20 23/pause 500/faceDirection MonaCute 0/playSound stoneStep/pause 250/playSound stoneStep/textAboveHead MonaCute \"Hello?\"/pause 500/faceDirection MonaCute 1/textAboveHead MonaCute \"No-one's home.\"/pause 5000/emote TristanCute 60/pause 500/textAboveHead MonaCute \"I'm going in\"/pause 500/faceDirection MonaCute 0/pause 500/playSound openChest/pause 1000/emote TristanCute 28/pause 1000/fade/viewport -100 -100/changeLocation WitchHut/viewport -100 -100/warp MonaCute 7 11/warp TristanCute 8 11/pause 500/fade/viewport 9 9/move MonaCute 0 -5 0/faceDirection TristanCute 1/pause 1250/faceDirection TristanCute 0/pause 1250/faceDirection TristanCute 3/pause 500/textAboveHead MonaCute \"Wow!\"/move MonaCute 4 0 1/pause 400/textAboveHead MonaCute \"This is amazing!\"/pause 1500/textAboveHead MonaCute \"I wonder what happens...\"/pause 250/playSound dwoop/pause 1500/playSound shadowHit/pause 500/jump TristanCute 3/textAboveHead TristanCute \"What have you done?\"/pause 1500/playSound cacklingWitch/pause 500/emote MonaCute 16/speed MonaCute 4/move MonaCute -4 0 2/pause 250/speed MonaCute 4/move MonaCute 0 9 2/warp MonaCute -1000 -1000/speed TristanCute 4/speed TristanCute 4/move TristanCute -1 0 2/speed TristanCute 4/move TristanCute 0 4 2/fade/viewport -100 -100/changeLocation WitchSwamp/viewport -100 -100/warp MonaCute 20 25/warp TristanCute 21 24/viewport 19 25/pause 500/playSound swordswipe/warp WitchCute 20 21/faceDirection MonaCute 0/faceDirection TristanCute 0/pause 500/shake MonaCute 250/jump TristanCute 3/textAboveHead WitchCute \"Meddling fools!\"/pause 500/showFrame TristanCute 18/move MonaCute 0 -1 0/showFrame MonaCute 18/pause 500/shake WitchCute 350/pause 500/animate WitchCute false false 350 4 5 6 7 8/pause 1250/warp TristanCute 20 23/pause 500/screenFlash 1/warp TristanCute -1000 -1000/warp GingerCute 20 23/pause 1000/emote MonaCute 16/faceDirection MonaCute 2/speed MonaCute 8/move MonaCute 0 7 2/pause 500/warp MonaCute -1000 -1000/animate GingerCute false true 250 0 1 0 1/playSound cacklingWitch/fade fadeOut/warp WitchCute -1000 -1000/warp GingerCute -1000 -1000/viewport -100 -100/pause 500/stopMusic/changeLocation AnimalShop/warp MisterGinger 4 6/warp Jas 5 5/warp farmer 6 6/viewport 5 7 clamp true/pause 500/emote farmer 16/animate MisterGinger true false 350 23 29 30 31 30 23/pause 500/speak Jas \"I told you he was more than just a cat!\"/stopAnimation MisterGinger/pause 500/speak MisterGinger \"I suppose you've got questions?\"/question fork1 \"...#What happened next?#How do we break the enchantment?\"/fork BreakCurse/pause 500/speak MisterGinger \"It hurts to remember... but you've gotta know. You'll help me be strong, won't you kitten?$2\"/pause 500/faceDirection Jas 3/emote Jas 20/pause 500/emote MisterGinger 32/pause 500/viewport -100 -100/playMusic AbigailFlute/warp MisterGinger -1000 -1000/warp farmer -1000 -1000/warp Jas -1000 -1000/warp GingerCute -100 -100/animate GingerCute false true 250 0 1 3 12 13 14 15/emote GingerCute 24/speak MisterGinger \"The witch didn't leave me there in the cave. No, she took me away and dumped me in the countryside, far from home.$2#$b#I could barely remember who I was, who I had been.$2#$b#There was one memory that I clung to, however. Her.#$b#Mona. My beloved.$2#$b#I learned to hunt, and to follow the tingle in my whiskers...\"/changeLocation Town/viewport -100 -100/warp MarnShane 47 88/stopAnimation GingerCute/warp GingerCute 45 91/showFrame GingerCute 12/speak MisterGinger \"...but when I finally found my way home, I was too late.$2\"/playMusic desolate/viewport 45 89 true/pause 2500/animate MarnShane false false 450 0 1 2/showFrame MarnShane 2/pause 2500/animate GingerCute false false 350 16 17 18 19 19 19/pause 2000/showFrame GingerCute 19/fade/viewport -100 -100/pause 1000/warp MarnShane -1000 -1000/speak MisterGinger \"But within the darkness, there was one bright spark.#$b#Her daughter.#$b#My Jas.\"/stopMusic/warp MarnCute 49 33 2 false/showFrame MarnCute 0/warp JasCute 50 33/warp GingerCute 50 37/showFrame JasCute 0/pause 500/viewport -100 -100/fade/viewport 50 34 true/pause 1000/animate GingerCute false false 250 12 13 14 15/pause 1000/showFrame JasCute 1/emote JasCute 20/pause 500/textAboveHead JasCute \"Kitty!\"/pause 500/showFrame GingerCute 0/pause 500/faceDirection GingerCute 0/pause 500/animate JasCute false false 250 1 2 3/emote GingerCute 16/pause 500/move GingerCute 0 -3 2/showFrame Jas 2/showFrame GingerCute 18/pause 500/faceDirection MarnCute 1/pause 250/emote GingerCute 20/emote MarnCute 32/pause 1000/viewport -100 -100/speak MisterGinger \"And from that day on, you stole my heart, Jas.#$b#I might not have been able to be your father, but I could be your friend.#$b#And help you grow and flourish, watch you become bold and smart, and so very kind too. Your mother would've been so proud, kitten.$2\"/pause 500/changeLocation AnimalShop/warp MisterGinger 4 6/warp Jas 5 5/warp farmer 6 6/viewport 11 11/pause 500/emote MisterGinger 20/emote Jas 20/pause 1500/faceDirection Jas 1/speak Jas \"See farmer @! We've got to break the curse. You'll help us right?\"/pause 500/emote farmer 32/switchEvent BreakCurse",
-                "BreakCurse": "pause 500/speak Jas \"I've been reading up heaps and heaps about enchantments, and the stories all say love breaks spells!#$b#But my love isn't enough...$s#$b#I know you love Mr Ginger almost as much as I do.\"/pause 500/emote farmer 28/speak Jas \"Oh, I don't mean the kissy-kissy kind of love!$1#$b#I mean, like the bestest and bestest of friends, who'd do anything for each other: like Vinny and me.\"/playSound cat/pause 500/speak Jas \"Yes, really! We would!$1\"/pause 500/emote farmer 32/pause 1500/emote farmer 8/pause 500/speak Jas \"How do we use our love to break the enchantment? I don't know...$3\"/pause 500/speak MisterGinger \"Nor do I...$2#$b#But Ras'll help us.$4\"/pause 500/speak Jas \"You mean that weird woman in the tower? Aunt Marnie said to stay away from her... she scares me!$3#$b#But you'll talk to her, won't you farmer @?\"/pause 500/emote farmer 28/pause 1000/Message \"I wonder if anyone else remembers Tristan?\"/pause 1000/end",
-            }
-        },
+    {
+      "Action": "Include",
+	  "When": { "HasMod": "elhrvy.NPCJuna" },
+      "FromFile": "data/Juna_comp.json"
+    },
+	
+// Lunna
+
+    {
+      "Action": "Include",
+	  "When": { "HasMod": "Rafseazz.LunnaCP" },
+      "FromFile": "data/Lunna_comp.json"
+    },
+	
+// RSV
+
+    {
+      "Action": "Include",
+	  "When": { "HasMod": "Rafseazz.RSVCP" },
+      "FromFile": "data/RSV_comp.json"
+    },
 	]
 }

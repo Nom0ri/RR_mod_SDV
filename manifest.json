@@ -1,7 +1,7 @@
 {
     "Name": "Romanceable Rasmodia",
-    "Author": "Written by WerewolfMaster, haywrites, SVE compatability by PaintedParrot, Female Version by Nom0ri",
-    "Version": "2.2.1",
+    "Author": "Nomori, credits to Romanceable Rasmodius authors: WerewolfMaster, haywrites and PaintedParrot",
+    "Version": "2.3.1",
     "Description": "Changes old Wizard of the tower to the beautiful Witch Rasmodia",
     "UniqueID": "Nom0ri.RomRas",
     "UpdateKeys": ["Nexus:8265"],
@@ -35,14 +35,45 @@
 			"IsRequired": false,
 		},
 		{
-		  "UniqueID": "LemurKat.Mr.Ginger.NPC",
-		  "IsRequired": false
+			"UniqueID": "talkohlooeys.SeasonalPortraits",
+			"IsRequired": false
         },
 		{
-		  "UniqueID": "Lemurkat.Tristan.CP",
-		  "IsRequired": false
+			"UniqueID": "1oxnes.SeasonalSVE",
+			"IsRequired": false
         },
-
+		{
+			"UniqueID": "LemurKat.Mr.Ginger.NPC",
+			"IsRequired": false
+        },
+		{
+			"UniqueID": "Lemurkat.Tristan.CP",
+			"IsRequired": false
+        },
+		{
+			"UniqueID": "Poltergeister.SeasonalCuteCharactersMulti",
+			"IsRequired": false
+		},
+		{
+			"UniqueID": "talkohlooeys.SeasonalPortraits",
+			"IsRequired": false
+        },
+		{
+			"UniqueID": "supert.adventureguildexpanded",
+			"IsRequired": false
+        },
+		{
+			"UniqueID": "elhrvy.NPCJuna",
+			"IsRequired": false
+        },
+		{
+			"UniqueID": "Rafseazz.LunnaCP",
+			"IsRequired": false
+        },
+		{
+			"UniqueID": "Rafseazz.RSVCP",
+			"IsRequired": false,
+        },
      ],
     "ContentPackFor": {
        "UniqueID": "Pathoschild.ContentPatcher"
