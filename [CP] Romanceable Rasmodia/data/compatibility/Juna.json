@@ -6,7 +6,7 @@
 		"Action": "EditData",
 		"Target": "Characters/Dialogue/Juna",
 		"Entries": {
-			"WizardHouse_4_6": "{{i18n: roommate.4.6}}",
+			"WizardHouse_4_6": "{{i18n: roommate.4.6}}"
 			},
 		"When": {
 			"HasSeenEvent": "86060023",
@@ -19,23 +19,25 @@
 		"Action": "EditData",
 		"Target": "Characters/Dialogue/Juna",
 		"Entries": {
-			"winter_26_1": "One time, Raz gave me an 800 page book of spells for my birthday. Then she gave me two weeks to memorise them and went off to see some woman while I stayed at home studying.$5",
-			"winter_26_2": "One time, Raz gave me an 800 page book of spells for my birthday. Then she gave me two weeks to memorise them and went off to see some woman while I stayed at home studying.$5",
-			"winter_27_1": "One time, Raz gave me a book of poems for my birthday. Poems written by his ex-wife. Poems written by his ex-wife that were dedicted to her.$5",
-			"winter_27_2": "One time, Raz gave me a book of poems for my birthday. Poems written by his ex-wife. Poems written by his ex-wife that were dedicted to her.$5",
-			"spring_Sun": "If you ever want to piss off Raz - and who doesn't? - just recite \"Double, double toil and trouble; fire burn and cauldron bubble\" whenever you have to stir something around her. She'll go from zero to sixty in no time at all, I promise.$3",
-			"spring_Sun8": "Sunday used to be the day Raz would visit with the other magic people. She brought me with her only once, and regretted it within the hour.$3",
-			"summer_Sat8": "The old forest is generally closed to humans, so I only ever saw Raz when she came to check up on me.#$e#It's fine. It's not like I wanted to see my parents again or anything like that.$12",
-			"summer_Sun": "Has Raz mentioned anything about needing an apprentice?#$b#Well, if she does, let me know straight away. Then run far, far away!",
-			"fall_Mon": "Ah, today is such a great day! Why? Because yesterday I managed to capture - on film! - Raz accidentally swallowing a spider after I'd pushed her into a pile of leaves!$1",
-			"winter_Sun": "One day, @, I shall prove to the world that Raz' potions don't actually need to be disgusting. She simply has no taste.$3",
+			"winter_26_1": "{{i18n:Juna.winter_26_1}}",
+			"winter_26_2": "{{i18n:Juna.winter_26_1}}",
+			"winter_27_1": "{{i18n:Juna.winter_27_1}}",
+			"winter_27_2": "{{i18n:Juna.winter_27_1}}",
+			"spring_Sun": "{{i18n:Juna.spring_Sun}}",
+			"spring_Sun8": "{{i18n:Juna.spring_Sun8}}",
+			"summer_Sat8": "{{i18n:Juna.summer_Sat8}}",
+			"summer_Sun": "{{i18n:Juna.summer_Sun}}",
+			"fall_Mon": "{{i18n:Juna.fall_Mon}}",
+			"winter_Sun": "{{i18n:Juna.winter_Sun}}",
+			"winter_Sat10": "{{i18n:Juna.winter_Sat10}}",
+			"fall_Sun10": "{{i18n:Juna.fall_Sun10}}"			
 		}
     },
 	{
 		"Action": "EditData",
 		"Target": "Characters/Dialogue/Juna",
 		"Entries": {
-			"WizardHouse_10_14": "{{i18n: roommate.4.6}}",
+			"WizardHouse_10_14": "{{i18n: roommate.4.6}}"
 			},
 		"When": {
 			"HasSeenEvent": "86060023",
@@ -67,7 +69,7 @@
 		"Action": "EditData",
 		"Target": "Characters/Dialogue/Wizard",
 		"Entries": {
-			"WizardHouse_12_21": "{{i18n: wizard.sunday.general}}",
+			"WizardHouse_12_21": "{{i18n: wizard.sunday.general}}"
 		},
 		"When": {
 			"HasSeenEvent": "86060023",
@@ -79,7 +81,7 @@
 		"Action": "EditData",
 		"Target": "Characters/Dialogue/Wizard",
 		"Entries": {
-			"WizardHouse_7_32": "{{i18n: wizard.sunday.general}}",
+			"WizardHouse_7_32": "{{i18n: wizard.sunday.general}}"
 		},
 		"When": {
 			"HasSeenEvent": "86060023",
@@ -104,7 +106,7 @@
 		"Target": "Characters/Dialogue/Wizard",
 		"Entries": {
 			"fallWizardHouse_2_19": "{{i18n: wizard.sunday.10.wizardfall}}",
-			"fallWizardHouse_10_15": "{{i18n: wizard.sunday.10.wizardfall}}",
+			"fallWizardHouse_10_15": "{{i18n: wizard.sunday.10.wizardfall}}"
 		},
 		"When": {
 			"Hearts:Juna": "10",
@@ -125,7 +127,7 @@
 		"Target": "Characters/Dialogue/Robin",
 		"Entries": {
 			"JunaWizard": "{{i18n: robin.conversation.wizard}}",
-			"JunaForestPicnic": "{{i18n: robin.conversation.picnic}}",
+			"JunaForestPicnic": "{{i18n: robin.conversation.picnic}}"
       }
     },
 	{
@@ -160,7 +162,7 @@
 			"JunaWizardletter3": "{{i18n: mail.wizard.3}}",
 			"JunaWizardletter5": "{{i18n: mail.wizard.5}}",
 			"JunaWizardletter6": "{{i18n: mail.wizard.6}}",
-			"JunaPicnic": "{{i18n: mail.picnic.forest}}",
+			"JunaPicnic": "{{i18n: mail.picnic.forest}}"
 		}
 	},
 	
@@ -218,7 +220,7 @@
 		"Action": "EditData",
 		"Target": "Data/Events/Farm",
 		"Entries": {
-			"86060025/e 86060037/A JunaWizard7/n JunaWizardletter6/t 600 2600": "continue/64 15/farmer 64 16 2 Juna 64 18 0/addConversationTopic JunaReturnW 7/skippable/pause 1500/speak Juna \"{{i18n:event-86060025.01}}\"/pause 750/emote farmer 60/pause 500/speak Juna \"{{i18n:event-86060025.02}}\"/pause 750/emote farmer 28/pause 1000/speak Juna \"{{i18n:event-86060025.03}}\"/pause 500/emote farmer 32/pause 1000/faceDirection Juna 2/pause 500/move Juna 0 1 2/pause 500/emote Juna 40/pause 1000/faceDirection Juna 0/pause 500/speak Juna \"{{i18n:event-86060025.04}}\"/pause 500/emote farmer 28/pause 1000/faceDirection Juna 2/speak Juna \"{{i18n:event-86060025.05}}\"/pause 1000/textAboveHead Juna \"{{i18n:event-86060025.06}}\"/pause 3000/end invisible Juna",
+			"86060025/e 86060037/A JunaWizard7/n JunaWizardletter6/t 600 2600": "continue/64 15/farmer 64 16 2 Juna 64 18 0/addConversationTopic JunaReturnW 7/skippable/pause 1500/speak Juna \"{{i18n:event-86060025.01}}\"/pause 750/emote farmer 60/pause 500/speak Juna \"{{i18n:event-86060025.02}}\"/pause 750/emote farmer 28/pause 1000/speak Juna \"{{i18n:event-86060025.03}}\"/pause 500/emote farmer 32/pause 1000/faceDirection Juna 2/pause 500/move Juna 0 1 2/pause 500/emote Juna 40/pause 1000/faceDirection Juna 0/pause 500/speak Juna \"{{i18n:event-86060025.04}}\"/pause 500/emote farmer 28/pause 1000/faceDirection Juna 2/speak Juna \"{{i18n:event-86060025.05}}\"/pause 1000/textAboveHead Juna \"{{i18n:event-86060025.06}}\"/pause 3000/end invisible Juna"
 		}
     },
 	
@@ -254,7 +256,7 @@
       },
       "When": {
         "HasFlag |contains=Event3Played": "false",
-		"Spouse |contains=Wizard": false,
+		"Relationship:Wizard |contains=Engaged, Married": false,
 		"HasSeenEvent": "86060009"
       }
     },
@@ -269,7 +271,7 @@
       },
       "When": {
         "HasFlag |contains=Event3Played": "false",
-		"Spouse |contains=Wizard": true,
+		"Relationship:Wizard": "Married, Engaged",
 		"HasSeenEvent": "86060009"
       }
     },
@@ -284,7 +286,7 @@
       },
       "When": {
         "HasFlag |contains=Event3Played": "false",
-		"Spouse |contains=Wizard": false,
+		"Relationship:Wizard |contains=Engaged, Married": false,
 		"HasSeenEvent": "86060008"
       }
     },
@@ -299,7 +301,7 @@
       },
       "When": {
         "HasFlag |contains=Event3Played": "false",
-		"Spouse |contains=Wizard": true,
+		"Relationship:Wizard": "Married, Engaged",
 		"HasSeenEvent": "86060008"
       }
     },
@@ -312,7 +314,7 @@
 			"winter_8": "{{i18n: roommate.winter_8}}",
 			"winter_17": "{{i18n: roommate.winter_17P}}",
 			"Good_4": "{{i18n: roommate.good.4}}",
-			"Neutral_1": "{{i18n: roommate.neutral.1}}",
+			"Neutral_1": "{{i18n: roommate.neutral.1}}"
 		}
 	},
 	{
@@ -323,7 +325,7 @@
 			"winter_8": "{{i18n: roommate.winter_8}}",
 			"winter_17": "{{i18n: roommate.winter_17}}",
 			"Good_4": "{{i18n: roommate.good.4}}",
-			"Neutral_1": "{{i18n: roommate.neutral.1}}",
+			"Neutral_1": "{{i18n: roommate.neutral.1}}"
 		}
 	},
 	
@@ -349,7 +351,7 @@
         "DayOfWeek": "Friday",
         "HasSeenEvent": "86060018",
         "Season": "summer",
-		"HasSeenEvent": "86060009"
+		"HasSeenEvent |contains=86060009": true
       }
     },
 	
@@ -375,7 +377,7 @@
         "DayOfWeek": "Friday",
         "HasSeenEvent": "86060018",
         "Season": "summer",
-		"HasSeenEvent": "86060008"
+		"HasSeenEvent |contains=86060008": true
       }
     },
 	{
@@ -419,7 +421,7 @@
 		"springForest_33_98": "{{Random: {{i18n: string.marriage_Fri.003}} ++ {{i18n: string.marriage_Fri.004}} ++ {{i18n: string.marriage_Fri.005}} |inputSeparator=++}}",
         "summerForest_33_98": "{{Random: {{i18n: string.marriage_Fri.003}} ++ {{i18n: string.marriage_Fri.004}} ++ {{i18n: string.marriage_Fri.005}} |inputSeparator=++}}",
         "fallForest_33_98": "{{Random: {{i18n: string.marriage_Fri.003}} ++ {{i18n: string.marriage_Fri.004}} ++ {{i18n: string.marriage_Fri.005}} |inputSeparator=++}}",
-        "winterForest_33_98": "{{Random: {{i18n: string.marriage_Fri.003}} ++ {{i18n: string.marriage_Fri.004}} ++ {{i18n: string.marriage_Fri.005}} |inputSeparator=++}}",
+        "winterForest_33_98": "{{Random: {{i18n: string.marriage_Fri.003}} ++ {{i18n: string.marriage_Fri.004}} ++ {{i18n: string.marriage_Fri.005}} |inputSeparator=++}}"
 	  }
 	},
 	
@@ -436,7 +438,7 @@
 		  "marriage_Sun.008": "{{i18n: string.marriage_Sun.008}}",
 		  "marriage_Sun.010": "{{i18n: string.marriage_Sun.010}}",
 		  "marriage_winter_17.001": "{{i18n: string.marriage_winter_17.001}}",
-		  "marriage_winter_17.004": "{{i18n: string.marriage_winter_17.004}}",
+		  "marriage_winter_17.004": "{{i18n: string.marriage_winter_17.004}}"
 	  }
 	},
 	
@@ -449,7 +451,7 @@
       "Entries": {
         "Juna_SunW.001": "{{i18n: string.Juna_SunW.001}}", //random 2 W
         "Juna_SunW.004": "{{i18n: string.Juna_SunW.004}}", //random 2 W
-        "Juna_SunP.010": "{{i18n: string.Juna_SunP.010}}", //random 2 P
+        "Juna_SunP.010": "{{i18n: string.Juna_SunP.010}}" //random 2 P
       }
     },
 	
@@ -458,8 +460,8 @@
       "Target": "Characters/Dialogue/Juna",
       "Entries": {
         "AlectoIntroduction": "{{i18n: juna.AlectoIntroduction}}",
-        "MeetTheCats": "{{i18n: juna.MeetTheCats}}",
+        "MeetTheCats": "{{i18n: juna.MeetTheCats}}"
       }
-    },
+    }
 	]
 }
